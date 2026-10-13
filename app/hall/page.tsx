@@ -3,11 +3,15 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { GAMES, seededScores } from "@/lib/data";
+import { useAuth } from "@/lib/auth-context";
 
 export default function HallOfFamePage() {
   const [tab, setTab] = useState(GAMES[0].id);
   const rows = useMemo(() => seededScores(tab.length * 23 + 7, 12), [tab]);
   const game = GAMES.find((g) => g.id === tab);
+  const { user } = useAuth();
+  const youRank = user ? Math.floor(8 + (tab.length % 4)) : null;
+  const youScore = user ? (rows[5]?.score ?? 10000) - 2400 : null;
 
   return (
     <div className="av-hall fade-in">
@@ -88,6 +92,34 @@ export default function HallOfFamePage() {
             <div className="dt">{r.date}</div>
           </div>
         ))}
+        {user && game && (
+          <>
+            <div className="tr you-label">
+              ▸ TU MEJOR MARCA EN {game.title}
+            </div>
+            <div
+              className="tr you"
+              style={{ animationDelay: `${rows.length * 50 + 50}ms` }}
+            >
+              <div className="rk" style={{ color: "var(--yellow)" }}>
+                #{String(youRank).padStart(2, "0")}
+              </div>
+              <div className="pl" style={{ color: "var(--yellow)" }}>
+                {user.name}
+              </div>
+              <div
+                className="sc"
+                style={{
+                  color: "var(--yellow)",
+                  textShadow: "0 0 6px rgba(245,255,0,0.5)",
+                }}
+              >
+                {(youScore ?? 9999).toLocaleString("es-ES")}
+              </div>
+              <div className="dt">11/05/2026</div>
+            </div>
+          </>
+        )}
       </div>
 
       <div style={{ textAlign: "center", marginTop: 32 }}>

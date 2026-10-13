@@ -3,10 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { user, logout } = useAuth();
 
   const isActive = (path: string) => {
     if (path === "/") return pathname === "/" || pathname.startsWith("/game");
@@ -39,9 +41,15 @@ export function Nav() {
           <span>CRÉDITOS · 03</span>
         </div>
 
-        <Link href="/auth" className="btn auth-btn">
-          Iniciar Sesión
-        </Link>
+        {user ? (
+          <button className="btn ghost auth-btn" onClick={logout}>
+            {user.name} ▾
+          </button>
+        ) : (
+          <Link href="/auth" className="btn auth-btn">
+            Iniciar Sesión
+          </Link>
+        )}
 
         <button
           className="btn ghost hamburger"
@@ -82,7 +90,7 @@ export function Nav() {
           className={isActive("/auth") ? "active" : ""}
           onClick={() => setOpen(false)}
         >
-          Iniciar Sesión
+          {user ? "Cuenta" : "Iniciar Sesión"}
         </Link>
         <div style={{ flex: 1 }} />
         <div

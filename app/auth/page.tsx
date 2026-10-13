@@ -1,9 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
 
 export default function AuthPage() {
   const [tab, setTab] = useState<"in" | "up">("in");
+  const [username, setUsername] = useState("");
+  const router = useRouter();
+  const { login } = useAuth();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    login({ name: (username || "PLAYER1").toUpperCase().slice(0, 10) });
+    router.push("/");
+  };
+
+  const handleGuest = () => {
+    login({ name: "INVITADO" });
+    router.push("/");
+  };
 
   return (
     <div className="av-auth-wrap fade-in">
@@ -39,10 +55,14 @@ export default function AuthPage() {
           </button>
         </div>
 
-        <form onSubmit={(e) => e.preventDefault()}>
+        <form onSubmit={handleSubmit}>
           <div className="field">
             <label>Usuario</label>
-            <input placeholder="px_kai" />
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="px_kai"
+            />
           </div>
           {tab === "up" && (
             <div className="field slide-in">
@@ -66,7 +86,9 @@ export default function AuthPage() {
 
         <button
           className="btn ghost"
+          type="button"
           style={{ width: "100%", marginTop: 10 }}
+          onClick={handleGuest}
         >
           JUGAR COMO INVITADO
         </button>

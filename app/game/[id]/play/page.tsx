@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { GAMES, getGameById } from "@/lib/data";
+import { PlayerHud } from "@/components/player-hud";
 
 export function generateStaticParams() {
   return GAMES.map((g) => ({ id: g.id }));
@@ -17,33 +17,7 @@ export default async function PlayerPage({
 
   return (
     <div className="av-player fade-in">
-      <div className="player-hud">
-        <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-          <div className="hud-stat">
-            <div className="l">Jugador</div>
-            <div className="v" style={{ color: "var(--ink)" }}>
-              INVITADO
-            </div>
-          </div>
-          <div className="hud-stat">
-            <div className="l">Puntuación</div>
-            <div className="v">0</div>
-          </div>
-          <div className="hud-stat lives">
-            <div className="l">Vidas</div>
-            <div className="v">♥ ♥ ♥</div>
-          </div>
-          <div className="hud-stat level">
-            <div className="l">Nivel</div>
-            <div className="v">01</div>
-          </div>
-        </div>
-        <div className="hud-actions">
-          <Link href={`/game/${game.id}`} className="btn ghost">
-            SALIR
-          </Link>
-        </div>
-      </div>
+      <PlayerHud gameId={game.id} />
 
       <div className="crt">
         <div className="crt-screen">
