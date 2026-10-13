@@ -6,15 +6,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Arcade Vault — online gaming platform where players compete for high scores. Built with Next.js 16.4, React 19, TypeScript, Tailwind CSS v4.
 
-## Commands
-
-```bash
-npm run dev      # Start dev server (Turbopack)
-npm run build    # Production build
-npm run start    # Serve production build
-npm run lint     # ESLint (flat config, core-web-vitals + typescript)
-```
-
 No test framework configured yet.
 
 ## Next.js 16 — Read Bundled Docs First
@@ -26,6 +17,10 @@ Key config flags enabled in `next.config.ts`:
 - `cacheComponents` — component-level caching
 - `partialPrefetching` — partial prefetching
 - Turbopack with `@tailwindcss/turbopack` loader for CSS
+
+## Skills
+
+Usa siempre /frontend-design para diseñar la interfaz de usuario.
 
 ## Architecture
 
