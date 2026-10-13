@@ -1,0 +1,1 @@
+- [01 — MVP Pantallas](01-mvp-pantallas.md) — Todas las pantallas visuales sin lógica de juego ni estado
