@@ -1,6 +1,6 @@
 # SPEC 02 — Home page (landing) y reorganización de rutas
 
-> **Status:** aprobado
+> **Status:** Implementado
 > **Depends on:** SPEC 01
 > **Date:** 2026-10-14
 > **Objective:** Implementar la home page (landing) de Arcade Vault en `/games` con hero, features, preview de juegos, stats, actividad en vivo mock y CTA final, moviendo la Library actual a `/library` y actualizando el Nav.
