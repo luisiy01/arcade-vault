@@ -1,6 +1,6 @@
 # SPEC 03 — About page y formulario de contacto con Resend
 
-> **Status:** Aprobado
+> **Status:** Implementado
 > **Depends on:** SPEC 01, SPEC 02
 > **Date:** 2026-10-14
 > **Objective:** Implementar la página About (`/about`) con sección acerca de, highlights, divider decorativo y formulario de contacto que envía correos vía Resend API.
