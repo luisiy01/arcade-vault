@@ -1,17 +1,19 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { GAMES, getGameById, seededScores } from '@/lib/data';
+import { getGames, getGameById } from '@/lib/supabase/games';
+import { getScoresByGame } from '@/lib/supabase/scores';
 
-export function generateStaticParams() {
-  return GAMES.map((g) => ({ id: g.id }));
+export async function generateStaticParams() {
+  const games = await getGames();
+  return games.map((g) => ({ id: g.id }));
 }
 
 export default async function GameDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const game = getGameById(id);
+  const game = await getGameById(id);
   if (!game) notFound();
 
-  const scores = seededScores(id.length * 17 + 3, 10);
+  const scores = await getScoresByGame(game.id, 10);
 
   return (
     <div className="av-detail fade-in">
@@ -74,12 +76,12 @@ export default async function GameDetailPage({ params }: { params: Promise<{ id:
           <h3>MEJORES PUNTUACIONES</h3>
           {scores.map((r, i) => (
             <div
-              key={r.name}
+              key={r.id}
               className={`lb-row${i === 0 ? ' top1' : i === 1 ? ' top2' : i === 2 ? ' top3' : ''}`}
             >
-              <div className="rk">#{String(r.rank).padStart(2, '0')}</div>
+              <div className="rk">#{String(i + 1).padStart(2, '0')}</div>
               <div className="pl">
-                {r.name}
+                {r.player_name}
                 <div
                   style={{
                     fontSize: 10,
@@ -87,7 +89,7 @@ export default async function GameDetailPage({ params }: { params: Promise<{ id:
                     letterSpacing: '0.1em',
                   }}
                 >
-                  {r.date}
+                  {new Date(r.created_at).toLocaleDateString('es-ES')}
                 </div>
               </div>
               <div className="sc">{r.score.toLocaleString('es-ES')}</div>
