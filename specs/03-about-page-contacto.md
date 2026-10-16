@@ -90,11 +90,11 @@ La API Route recibe un JSON con estos mismos campos y responde con `{ success: t
 
 ## Risks
 
-| Risk | Mitigation |
-| --- | --- |
-| `RESEND_API_KEY` no configurada en `.env.local` | Validar presencia al arrancar y devolver error descriptivo en API Route. |
-| Resend free tier con límite de envíos | Suficiente para formulario de contacto. Rate limiting queda fuera de scope. |
-| Spam en formulario de contacto | CAPTCHA queda para futuro spec. Por ahora aceptable dado bajo tráfico esperado. |
+| Risk                                            | Mitigation                                                                      |
+| ----------------------------------------------- | ------------------------------------------------------------------------------- |
+| `RESEND_API_KEY` no configurada en `.env.local` | Validar presencia al arrancar y devolver error descriptivo en API Route.        |
+| Resend free tier con límite de envíos           | Suficiente para formulario de contacto. Rate limiting queda fuera de scope.     |
+| Spam en formulario de contacto                  | CAPTCHA queda para futuro spec. Por ahora aceptable dado bajo tráfico esperado. |
 
 ## What is **not** in this spec
 

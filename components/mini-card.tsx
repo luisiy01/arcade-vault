@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import type { Game } from "@/lib/data";
+import Link from 'next/link';
+import type { Game } from '@/lib/data';
 
 export function MiniCard({ game }: { game: Game }) {
   return (

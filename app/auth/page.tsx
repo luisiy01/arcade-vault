@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/auth-context';
 
 export default function AuthPage() {
-  const [tab, setTab] = useState<"in" | "up">("in");
-  const [username, setUsername] = useState("");
+  const [tab, setTab] = useState<'in' | 'up'>('in');
+  const [username, setUsername] = useState('');
   const router = useRouter();
   const { login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    login({ name: (username || "PLAYER1").toUpperCase().slice(0, 10) });
-    router.push("/");
+    login({ name: (username || 'PLAYER1').toUpperCase().slice(0, 10) });
+    router.push('/');
   };
 
   const handleGuest = () => {
-    login({ name: "INVITADO" });
-    router.push("/");
+    login({ name: 'INVITADO' });
+    router.push('/');
   };
 
   return (
@@ -31,8 +31,8 @@ export default function AuthPage() {
             className="mono"
             style={{
               fontSize: 11,
-              color: "var(--ink-faint)",
-              letterSpacing: "0.16em",
+              color: 'var(--ink-faint)',
+              letterSpacing: '0.16em',
               marginTop: 6,
             }}
           >
@@ -41,16 +41,10 @@ export default function AuthPage() {
         </div>
 
         <div className="auth-tabs">
-          <button
-            className={tab === "in" ? "on" : ""}
-            onClick={() => setTab("in")}
-          >
+          <button className={tab === 'in' ? 'on' : ''} onClick={() => setTab('in')}>
             INICIAR SESIÓN
           </button>
-          <button
-            className={tab === "up" ? "on" : ""}
-            onClick={() => setTab("up")}
-          >
+          <button className={tab === 'up' ? 'on' : ''} onClick={() => setTab('up')}>
             CREAR CUENTA
           </button>
         </div>
@@ -64,7 +58,7 @@ export default function AuthPage() {
               placeholder="px_kai"
             />
           </div>
-          {tab === "up" && (
+          {tab === 'up' && (
             <div className="field slide-in">
               <label>Correo electrónico</label>
               <input type="email" placeholder="jugador@vault.gg" />
@@ -75,19 +69,15 @@ export default function AuthPage() {
             <input type="password" placeholder="••••••••" />
           </div>
 
-          <button
-            className="btn lg"
-            type="submit"
-            style={{ width: "100%", marginTop: 8 }}
-          >
-            {tab === "in" ? "ENTRAR AL VAULT" : "CREAR Y JUGAR"}
+          <button className="btn lg" type="submit" style={{ width: '100%', marginTop: 8 }}>
+            {tab === 'in' ? 'ENTRAR AL VAULT' : 'CREAR Y JUGAR'}
           </button>
         </form>
 
         <button
           className="btn ghost"
           type="button"
-          style={{ width: "100%", marginTop: 10 }}
+          style={{ width: '100%', marginTop: 10 }}
           onClick={handleGuest}
         >
           JUGAR COMO INVITADO
@@ -106,10 +96,10 @@ export default function AuthPage() {
         <div
           style={{
             marginTop: 18,
-            textAlign: "center",
+            textAlign: 'center',
             fontSize: 11,
-            color: "var(--ink-faint)",
-            letterSpacing: "0.1em",
+            color: 'var(--ink-faint)',
+            letterSpacing: '0.1em',
           }}
         >
           AL ENTRAR ACEPTAS LOS TÉRMINOS DEL SALÓN ARCADE

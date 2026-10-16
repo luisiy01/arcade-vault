@@ -1,16 +1,12 @@
-import { notFound } from "next/navigation";
-import { GAMES, getGameById } from "@/lib/data";
-import { PlayerHud } from "@/components/player-hud";
+import { notFound } from 'next/navigation';
+import { GAMES, getGameById } from '@/lib/data';
+import { PlayerHud } from '@/components/player-hud';
 
 export function generateStaticParams() {
   return GAMES.map((g) => ({ id: g.id }));
 }
 
-export default async function PlayerPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function PlayerPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const game = getGameById(id);
   if (!game) notFound();
@@ -28,10 +24,7 @@ export default async function PlayerPage({
             <div className="enemy e3" />
             <div className="player-ship" />
           </div>
-          <div
-            className="crt-content"
-            style={{ background: "rgba(0,0,0,0.6)", zIndex: 5 }}
-          >
+          <div className="crt-content" style={{ background: 'rgba(0,0,0,0.6)', zIndex: 5 }}>
             <div>
               <div className="pixel neon-cyan" style={{ fontSize: 18 }}>
                 EN DESARROLLO
@@ -40,9 +33,9 @@ export default async function PlayerPage({
                 className="mono"
                 style={{
                   fontSize: 11,
-                  color: "var(--ink-dim)",
+                  color: 'var(--ink-dim)',
                   marginTop: 10,
-                  letterSpacing: "0.16em",
+                  letterSpacing: '0.16em',
                 }}
               >
                 ESTE JUEGO AÚN NO ESTÁ DISPONIBLE

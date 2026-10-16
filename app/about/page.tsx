@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { HighlightIcon } from "@/components/highlight-icon";
+import { useEffect, useState } from 'react';
+import { HighlightIcon } from '@/components/highlight-icon';
 
 function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll(".reveal");
+    const els = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            e.target.classList.add("in");
+            e.target.classList.add('in');
             io.unobserve(e.target);
           }
         });
@@ -23,15 +23,19 @@ function useReveal() {
 }
 
 const highlights = [
-  { icon: "HEART" as const, text: "HECHO CON ❤️ PARA JUGADORES", color: "magenta" },
-  { icon: "BROWSER" as const, text: "JUEGOS EN HTML — CORREN EN CUALQUIER NAVEGADOR", color: "cyan" },
-  { icon: "PLANT" as const, text: "PROYECTO EN CONSTANTE CRECIMIENTO", color: "green" },
+  { icon: 'HEART' as const, text: 'HECHO CON ❤️ PARA JUGADORES', color: 'magenta' },
+  {
+    icon: 'BROWSER' as const,
+    text: 'JUEGOS EN HTML — CORREN EN CUALQUIER NAVEGADOR',
+    color: 'cyan',
+  },
+  { icon: 'PLANT' as const, text: 'PROYECTO EN CONSTANTE CRECIMIENTO', color: 'green' },
 ];
 
 export default function AboutPage() {
   useReveal();
 
-  const [form, setForm] = useState({ name: "", email: "", msg: "" });
+  const [form, setForm] = useState({ name: '', email: '', msg: '' });
   const [sent, setSent] = useState<string | null>(null);
   const [shake, setShake] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -49,21 +53,21 @@ export default function AboutPage() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Error al enviar el mensaje.");
+        setError(data.error || 'Error al enviar el mensaje.');
         return;
       }
 
       setSent(form.name.trim());
     } catch {
-      setError("Error de conexión. Intenta de nuevo más tarde.");
+      setError('Error de conexión. Intenta de nuevo más tarde.');
     } finally {
       setLoading(false);
     }
@@ -71,7 +75,7 @@ export default function AboutPage() {
 
   const resetForm = () => {
     setSent(null);
-    setForm({ name: "", email: "", msg: "" });
+    setForm({ name: '', email: '', msg: '' });
     setError(null);
   };
 
@@ -81,14 +85,18 @@ export default function AboutPage() {
         <div className="kicker pixel neon-yellow">▸ ACERCA DE</div>
         <h1 className="about-title">ACERCA DE ARCADE VAULT</h1>
         <p className="about-mission">
-          ARCADE VAULT nació del amor por los videojuegos clásicos. Nuestra misión es preservar y celebrar
-          los arcades que definieron una generación, haciéndolos accesibles para todos, en cualquier lugar
-          y sin costo.
+          ARCADE VAULT nació del amor por los videojuegos clásicos. Nuestra misión es preservar y
+          celebrar los arcades que definieron una generación, haciéndolos accesibles para todos, en
+          cualquier lugar y sin costo.
         </p>
 
         <div className="highlight-row">
           {highlights.map((h, i) => (
-            <div key={i} className={`highlight ${h.color}`} style={{ transitionDelay: `${i * 80}ms` }}>
+            <div
+              key={i}
+              className={`highlight ${h.color}`}
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
               <HighlightIcon kind={h.icon} />
               <div className="hl-text pixel">{h.text}</div>
             </div>
@@ -116,13 +124,19 @@ export default function AboutPage() {
               Escríbenos.
             </p>
             <div className="contact-tips">
-              <div className="tip"><span className="tip-led"></span>RESPUESTA EN 24-48H</div>
-              <div className="tip"><span className="tip-led y"></span>SUGERENCIAS BIENVENIDAS</div>
-              <div className="tip"><span className="tip-led m"></span>SIN SPAM, JAMÁS</div>
+              <div className="tip">
+                <span className="tip-led"></span>RESPUESTA EN 24-48H
+              </div>
+              <div className="tip">
+                <span className="tip-led y"></span>SUGERENCIAS BIENVENIDAS
+              </div>
+              <div className="tip">
+                <span className="tip-led m"></span>SIN SPAM, JAMÁS
+              </div>
             </div>
           </div>
 
-          <form className={`contact-form${shake ? " shake" : ""}`} onSubmit={onSubmit}>
+          <form className={`contact-form${shake ? ' shake' : ''}`} onSubmit={onSubmit}>
             {!sent ? (
               <>
                 <div className="field">
@@ -156,9 +170,9 @@ export default function AboutPage() {
                   className="btn xl press"
                   type="submit"
                   disabled={loading}
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                 >
-                  {loading ? "ENVIANDO…" : "▶  ENVIAR MENSAJE"}
+                  {loading ? 'ENVIANDO…' : '▶  ENVIAR MENSAJE'}
                 </button>
               </>
             ) : (

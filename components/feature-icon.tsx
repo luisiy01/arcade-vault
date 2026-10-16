@@ -1,7 +1,7 @@
 export function FeatureIcon({ kind }: { kind: string }) {
-  const C = "currentColor";
+  const C = 'currentColor';
 
-  if (kind === "GAMEPAD")
+  if (kind === 'GAMEPAD')
     return (
       <svg className="ft-icon" viewBox="0 0 16 16">
         <g fill={C}>
@@ -16,19 +16,11 @@ export function FeatureIcon({ kind }: { kind: string }) {
       </svg>
     );
 
-  if (kind === "FREE")
+  if (kind === 'FREE')
     return (
       <svg className="ft-icon" viewBox="0 0 16 16">
         <g fill={C}>
-          <rect
-            x="3"
-            y="3"
-            width="10"
-            height="10"
-            fill="none"
-            stroke={C}
-            strokeWidth="1.5"
-          />
+          <rect x="3" y="3" width="10" height="10" fill="none" stroke={C} strokeWidth="1.5" />
           <rect x="5" y="6" width="1.5" height="4" />
           <rect x="5" y="6" width="4" height="1.5" />
           <rect x="5" y="8" width="3" height="1" />
@@ -37,7 +29,7 @@ export function FeatureIcon({ kind }: { kind: string }) {
       </svg>
     );
 
-  if (kind === "TROPHY")
+  if (kind === 'TROPHY')
     return (
       <svg className="ft-icon" viewBox="0 0 16 16">
         <g fill={C}>
@@ -53,7 +45,7 @@ export function FeatureIcon({ kind }: { kind: string }) {
       </svg>
     );
 
-  if (kind === "ROCKET")
+  if (kind === 'ROCKET')
     return (
       <svg className="ft-icon" viewBox="0 0 16 16">
         <g fill={C}>

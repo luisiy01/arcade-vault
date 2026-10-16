@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import Link from "next/link";
-import { GAMES } from "@/lib/data";
-import { FloatingSilhouettes } from "@/components/floating-silhouettes";
-import { FeatureIcon } from "@/components/feature-icon";
-import { MiniCard } from "@/components/mini-card";
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { GAMES } from '@/lib/data';
+import { FloatingSilhouettes } from '@/components/floating-silhouettes';
+import { FeatureIcon } from '@/components/feature-icon';
+import { MiniCard } from '@/components/mini-card';
 
 function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll(".reveal");
+    const els = document.querySelectorAll('.reveal');
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            e.target.classList.add("in");
+            e.target.classList.add('in');
             io.unobserve(e.target);
           }
         });
@@ -28,47 +28,47 @@ function useReveal() {
 
 const FEATURES = [
   {
-    icon: "GAMEPAD",
-    title: "JUEGOS CLÁSICOS",
-    desc: "Arkanoid, Tetris, Snake y muchos más. Los mejores arcades de todos los tiempos en un solo lugar.",
-    color: "cyan",
+    icon: 'GAMEPAD',
+    title: 'JUEGOS CLÁSICOS',
+    desc: 'Arkanoid, Tetris, Snake y muchos más. Los mejores arcades de todos los tiempos en un solo lugar.',
+    color: 'cyan',
   },
   {
-    icon: "FREE",
-    title: "100% GRATIS",
-    desc: "Sin suscripciones, sin pagos ocultos. Todos los juegos disponibles de forma gratuita.",
-    color: "yellow",
+    icon: 'FREE',
+    title: '100% GRATIS',
+    desc: 'Sin suscripciones, sin pagos ocultos. Todos los juegos disponibles de forma gratuita.',
+    color: 'yellow',
   },
   {
-    icon: "TROPHY",
-    title: "LADDER BOARDS",
-    desc: "Compite con jugadores de todo el mundo. Escala el ranking y demuestra quién es el mejor.",
-    color: "magenta",
+    icon: 'TROPHY',
+    title: 'LADDER BOARDS',
+    desc: 'Compite con jugadores de todo el mundo. Escala el ranking y demuestra quién es el mejor.',
+    color: 'magenta',
   },
   {
-    icon: "ROCKET",
-    title: "SIEMPRE CRECIENDO",
-    desc: "Agregamos nuevos juegos constantemente. Vuelve seguido, siempre habrá algo nuevo que jugar.",
-    color: "green",
+    icon: 'ROCKET',
+    title: 'SIEMPRE CRECIENDO',
+    desc: 'Agregamos nuevos juegos constantemente. Vuelve seguido, siempre habrá algo nuevo que jugar.',
+    color: 'green',
   },
 ];
 
 const RECENT_SCORES = [
-  { player: "NEONFOX", game: "Caída", score: 184220, time: "hace 2 min", color: "magenta" },
-  { player: "PX_KAI", game: "Glotón", score: 96400, time: "hace 5 min", color: "yellow" },
-  { player: "Z3R0COOL", game: "Invasores", score: 54190, time: "hace 8 min", color: "green" },
-  { player: "VAULT_07", game: "Rocas", score: 41200, time: "hace 12 min", color: "cyan" },
-  { player: "GLITCHA", game: "Bloque Buster", score: 28450, time: "hace 18 min", color: "cyan" },
-  { player: "ARKADYA", game: "Serpentina", score: 7820, time: "hace 24 min", color: "green" },
-  { player: "CYBER_LU", game: "Ranaria", score: 18900, time: "hace 31 min", color: "yellow" },
+  { player: 'NEONFOX', game: 'Caída', score: 184220, time: 'hace 2 min', color: 'magenta' },
+  { player: 'PX_KAI', game: 'Glotón', score: 96400, time: 'hace 5 min', color: 'yellow' },
+  { player: 'Z3R0COOL', game: 'Invasores', score: 54190, time: 'hace 8 min', color: 'green' },
+  { player: 'VAULT_07', game: 'Rocas', score: 41200, time: 'hace 12 min', color: 'cyan' },
+  { player: 'GLITCHA', game: 'Bloque Buster', score: 28450, time: 'hace 18 min', color: 'cyan' },
+  { player: 'ARKADYA', game: 'Serpentina', score: 7820, time: 'hace 24 min', color: 'green' },
+  { player: 'CYBER_LU', game: 'Ranaria', score: 18900, time: 'hace 31 min', color: 'yellow' },
 ];
 
 const TOP_PLAYERS = [
-  { rank: 1, player: "NEONFOX", score: 312840 },
-  { rank: 2, player: "PX_KAI", score: 248110 },
-  { rank: 3, player: "M00NRYU", score: 196720 },
-  { rank: 4, player: "VAULT_07", score: 154300 },
-  { rank: 5, player: "GLITCHA", score: 138900 },
+  { rank: 1, player: 'NEONFOX', score: 312840 },
+  { rank: 2, player: 'PX_KAI', score: 248110 },
+  { rank: 3, player: 'M00NRYU', score: 196720 },
+  { rank: 4, player: 'VAULT_07', score: 154300 },
+  { rank: 5, player: 'GLITCHA', score: 138900 },
 ];
 
 export default function HomePage() {
@@ -142,7 +142,7 @@ export default function HomePage() {
             <MiniCard key={g.id} game={g} />
           ))}
         </div>
-        <div style={{ textAlign: "center", marginTop: 24 }}>
+        <div style={{ textAlign: 'center', marginTop: 24 }}>
           <Link href="/library" className="btn lg">
             VER TODOS LOS JUEGOS →
           </Link>
@@ -153,15 +153,11 @@ export default function HomePage() {
       <section className="home-stats reveal">
         <div className="stats-inner">
           {[
-            { n: "12+", u: "JUEGOS", s: "Y CONTANDO" },
-            { n: "MILES", u: "DE PARTIDAS", s: "JUGADAS CADA DÍA" },
-            { n: "GLOBAL", u: "RANKING", s: "COMPITE CON EL MUNDO" },
+            { n: '12+', u: 'JUEGOS', s: 'Y CONTANDO' },
+            { n: 'MILES', u: 'DE PARTIDAS', s: 'JUGADAS CADA DÍA' },
+            { n: 'GLOBAL', u: 'RANKING', s: 'COMPITE CON EL MUNDO' },
           ].map((st, i) => (
-            <div
-              key={i}
-              className="stat-block"
-              style={{ transitionDelay: `${i * 90}ms` }}
-            >
+            <div key={i} className="stat-block" style={{ transitionDelay: `${i * 90}ms` }}>
               <div className="stat-n neon-yellow">{st.n}</div>
               <div className="stat-u pixel">{st.u}</div>
               <div className="stat-s">{st.s}</div>
@@ -184,16 +180,10 @@ export default function HomePage() {
             </div>
             <div className="ticker">
               {RECENT_SCORES.map((r, i) => (
-                <div
-                  key={i}
-                  className="tick-row"
-                  style={{ animationDelay: `${i * 60}ms` }}
-                >
+                <div key={i} className="tick-row" style={{ animationDelay: `${i * 60}ms` }}>
                   <span className={`tk-p neon-${r.color}`}>{r.player}</span>
                   <span className="tk-mid">▸ {r.game}</span>
-                  <span className="tk-s">
-                    +{r.score.toLocaleString("es-ES")}
-                  </span>
+                  <span className="tk-s">+{r.score.toLocaleString('es-ES')}</span>
                   <span className="tk-t">{r.time}</span>
                 </div>
               ))}
@@ -202,9 +192,7 @@ export default function HomePage() {
 
           <div className="activity-card">
             <div className="ac-head">
-              <div className="ac-title pixel neon-magenta">
-                ▸ TOP JUGADORES · HOY
-              </div>
+              <div className="ac-title pixel neon-magenta">▸ TOP JUGADORES · HOY</div>
               <Link href="/hall" className="lb-link">
                 VER SALÓN →
               </Link>
@@ -213,21 +201,14 @@ export default function HomePage() {
               {TOP_PLAYERS.map((r, i) => (
                 <div
                   key={i}
-                  className={`top-row${i === 0 ? " top1" : i === 1 ? " top2" : i === 2 ? " top3" : ""}`}
+                  className={`top-row${i === 0 ? ' top1' : i === 1 ? ' top2' : i === 2 ? ' top3' : ''}`}
                 >
-                  <span className="tp-rk">
-                    #{String(r.rank).padStart(2, "0")}
-                  </span>
+                  <span className="tp-rk">#{String(r.rank).padStart(2, '0')}</span>
                   <span className="tp-bar">
-                    <span
-                      className="tp-fill"
-                      style={{ width: `${100 - i * 16}%` }}
-                    />
+                    <span className="tp-fill" style={{ width: `${100 - i * 16}%` }} />
                   </span>
                   <span className="tp-p">{r.player}</span>
-                  <span className="tp-s">
-                    {r.score.toLocaleString("es-ES")}
-                  </span>
+                  <span className="tp-s">{r.score.toLocaleString('es-ES')}</span>
                 </div>
               ))}
             </div>
@@ -241,9 +222,7 @@ export default function HomePage() {
         <Link href="/library" className="btn xl pulse final-cta">
           INSERTAR MONEDA →
         </Link>
-        <div className="final-tag">
-          Gratis. Sin registro obligatorio. Empieza en segundos.
-        </div>
+        <div className="final-tag">Gratis. Sin registro obligatorio. Empieza en segundos.</div>
       </section>
     </div>
   );

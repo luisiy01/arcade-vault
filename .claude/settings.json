@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const j=JSON.parse(d);console.log(j.tool_response?.filePath||j.tool_input?.file_path)})\" | { read -r f; sed -i '/^[[:space:]]*$/{ N; /^[[:space:]]*\\n[[:space:]]*$/D }' \"$f\" 2>/dev/null; npx prettier --write --ignore-unknown \"$f\" 2>/dev/null; npx eslint --fix \"$f\" 2>/dev/null; exit 0; }",
+            "shell": "bash",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
