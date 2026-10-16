@@ -1,6 +1,6 @@
 # SPEC 06 — Leaderboard real y migración de juegos a Supabase
 
-> **Status:** Borrador
+> **Status:** Aprobado
 > **Depends on:** SPEC 04, SPEC 05
 > **Date:** 2026-10-16
 > **Objective:** Migrar los juegos hardcodeados a una tabla `games` en Supabase, crear tabla `scores` para el leaderboard, implementar submit de scores desde el juego, y mostrar rankings reales por juego y global en la UI.
