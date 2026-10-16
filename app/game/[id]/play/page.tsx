@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
-import { getGames, getGameById } from '@/lib/supabase/games';
+import { getGameSlugs, getGameById } from '@/lib/supabase/games';
 import { PlayerHud } from '@/components/player-hud';
 import { GameLoader } from '@/components/game-loader';
 
 export async function generateStaticParams() {
-  const games = await getGames();
-  return games.map((g) => ({ id: g.id }));
+  const slugs = await getGameSlugs();
+  return slugs.map((g) => ({ id: g.id }));
 }
 
 export default async function PlayerPage({ params }: { params: Promise<{ id: string }> }) {
