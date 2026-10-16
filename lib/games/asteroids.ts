@@ -1,4 +1,8 @@
-export function startAsteroids(canvas: HTMLCanvasElement): () => void {
+export interface AsteroidsOptions {
+  onGameOver?: (score: number) => void;
+}
+
+export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOptions): () => void {
   const ctx = canvas.getContext('2d')!;
   const W = 800;
   const H = 600;
@@ -395,6 +399,7 @@ export function startAsteroids(canvas: HTMLCanvasElement): () => void {
     lives--;
     if (lives <= 0) {
       state = 'gameover';
+      options?.onGameOver?.(score);
     } else {
       state = 'dead';
       deadTimer = 2;
