@@ -13,6 +13,7 @@ No test framework configured yet.
 This project runs Next.js 16.4 which has breaking changes from earlier versions. Before writing any Next.js code, read the relevant guide in `node_modules/next/dist/docs/` — do not rely on training data. The `AGENTS.md` file is auto-managed by `next dev` and should be committed as-is.
 
 Key config flags enabled in `next.config.ts`:
+
 - `experimental.agentFeedback` — structured error reporting for agents
 - `cacheComponents` — component-level caching
 - `partialPrefetching` — partial prefetching

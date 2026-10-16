@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
-import Link from "next/link";
-import type { Game } from "@/lib/data";
+import { useRef } from 'react';
+import Link from 'next/link';
+import type { Game } from '@/lib/data';
 
 export function GameCard({ game }: { game: Game }) {
   const tiltRef = useRef<HTMLDivElement>(null);
@@ -19,24 +19,14 @@ export function GameCard({ game }: { game: Game }) {
   const onLeave = () => {
     const el = tiltRef.current;
     if (!el) return;
-    el.style.transform = "";
+    el.style.transform = '';
   };
 
-  const colorClass =
-    game.color === "magenta"
-      ? "magenta"
-      : game.color === "yellow"
-        ? "yellow"
-        : "";
+  const colorClass = game.color === 'magenta' ? 'magenta' : game.color === 'yellow' ? 'yellow' : '';
 
   return (
-    <Link href={`/game/${game.id}`} style={{ display: "contents" }}>
-      <div
-        ref={tiltRef}
-        className="card"
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-      >
+    <Link href={`/game/${game.id}`} style={{ display: 'contents' }}>
+      <div ref={tiltRef} className="card" onMouseMove={onMove} onMouseLeave={onLeave}>
         <div className="cover">
           <div className={`cover-bg ${game.cover}`} />
           <div className="label">{game.cat}</div>
@@ -47,7 +37,7 @@ export function GameCard({ game }: { game: Game }) {
           <div className="row">
             <div className="score-badge">
               <span>MEJOR PUNTUACIÓN</span>
-              <b>{game.best.toLocaleString("es-ES")}</b>
+              <b>{game.best.toLocaleString('es-ES')}</b>
             </div>
             <span className={`btn ${colorClass}`}>JUGAR</span>
           </div>

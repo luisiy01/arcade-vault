@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useAuth } from '@/lib/auth-context';
 
 export function Nav() {
   const [open, setOpen] = useState(false);
@@ -11,8 +11,8 @@ export function Nav() {
   const { user, logout } = useAuth();
 
   const isActive = (path: string) => {
-    if (path === "/games") return pathname === "/games" || pathname === "/";
-    if (path === "/library") return pathname === "/library" || pathname.startsWith("/game/");
+    if (path === '/games') return pathname === '/games' || pathname === '/';
+    if (path === '/library') return pathname === '/library' || pathname.startsWith('/game/');
     return pathname.startsWith(path);
   };
 
@@ -27,16 +27,16 @@ export function Nav() {
         </Link>
 
         <div className="links">
-          <Link href="/games" className={isActive("/games") ? "active" : ""}>
+          <Link href="/games" className={isActive('/games') ? 'active' : ''}>
             Inicio
           </Link>
-          <Link href="/library" className={isActive("/library") ? "active" : ""}>
+          <Link href="/library" className={isActive('/library') ? 'active' : ''}>
             Biblioteca
           </Link>
-          <Link href="/hall" className={isActive("/hall") ? "active" : ""}>
+          <Link href="/hall" className={isActive('/hall') ? 'active' : ''}>
             Salón de la Fama
           </Link>
-          <Link href="/about" className={isActive("/about") ? "active" : ""}>
+          <Link href="/about" className={isActive('/about') ? 'active' : ''}>
             Acerca de
           </Link>
         </div>
@@ -58,68 +58,58 @@ export function Nav() {
           </Link>
         )}
 
-        <button
-          className="btn ghost hamburger"
-          onClick={() => setOpen(true)}
-          aria-label="Menú"
-        >
+        <button className="btn ghost hamburger" onClick={() => setOpen(true)} aria-label="Menú">
           ≡
         </button>
       </nav>
 
-      <div
-        className={`av-mobile-backdrop${open ? " open" : ""}`}
-        onClick={() => setOpen(false)}
-      />
-      <aside className={`av-mobile-panel${open ? " open" : ""}`}>
-        <div
-          className="pixel neon-cyan"
-          style={{ fontSize: 11, marginBottom: 16 }}
-        >
+      <div className={`av-mobile-backdrop${open ? ' open' : ''}`} onClick={() => setOpen(false)} />
+      <aside className={`av-mobile-panel${open ? ' open' : ''}`}>
+        <div className="pixel neon-cyan" style={{ fontSize: 11, marginBottom: 16 }}>
           MENÚ
         </div>
         <Link
           href="/games"
-          className={isActive("/games") ? "active" : ""}
+          className={isActive('/games') ? 'active' : ''}
           onClick={() => setOpen(false)}
         >
           Inicio
         </Link>
         <Link
           href="/library"
-          className={isActive("/library") ? "active" : ""}
+          className={isActive('/library') ? 'active' : ''}
           onClick={() => setOpen(false)}
         >
           Biblioteca
         </Link>
         <Link
           href="/hall"
-          className={isActive("/hall") ? "active" : ""}
+          className={isActive('/hall') ? 'active' : ''}
           onClick={() => setOpen(false)}
         >
           Salón de la Fama
         </Link>
         <Link
           href="/about"
-          className={isActive("/about") ? "active" : ""}
+          className={isActive('/about') ? 'active' : ''}
           onClick={() => setOpen(false)}
         >
           Acerca de
         </Link>
         <Link
           href="/auth"
-          className={isActive("/auth") ? "active" : ""}
+          className={isActive('/auth') ? 'active' : ''}
           onClick={() => setOpen(false)}
         >
-          {user ? "Cuenta" : "Iniciar Sesión"}
+          {user ? 'Cuenta' : 'Iniciar Sesión'}
         </Link>
         <div style={{ flex: 1 }} />
         <div
           className="pixel"
           style={{
             fontSize: 9,
-            color: "var(--ink-faint)",
-            letterSpacing: "0.16em",
+            color: 'var(--ink-faint)',
+            letterSpacing: '0.16em',
           }}
         >
           CRÉDITOS · 03

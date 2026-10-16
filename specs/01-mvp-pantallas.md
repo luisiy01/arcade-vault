@@ -40,14 +40,14 @@ interface Game {
   short: string;
   long: string;
   cat: string;
-  cover: string;    // clase CSS para cover art (cover-bricks, cover-tetro, etc.)
-  color: string;    // cyan | magenta | yellow | green
+  cover: string; // clase CSS para cover art (cover-bricks, cover-tetro, etc.)
+  color: string; // cyan | magenta | yellow | green
   best: number;
   plays: string;
 }
 
 const GAMES: Game[] = [/* 8 juegos del template */];
-const CATS: string[] = ["TODOS", "ARCADE", "PUZZLE", "SHOOTER", "VERSUS"];
+const CATS: string[] = ['TODOS', 'ARCADE', 'PUZZLE', 'SHOOTER', 'VERSUS'];
 const PLAYERS: string[] = [/* 18 nombres */];
 
 function seededScores(seed: number, count?: number): ScoreRow[];
