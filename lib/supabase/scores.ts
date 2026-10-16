@@ -1,5 +1,4 @@
 import { createClient } from '@/utils/supabase/server';
-import { createClient as createBrowserClient } from '@/utils/supabase/client';
 import type { Score } from '@/lib/supabase/types';
 
 export async function getScoresByGame(gameId: string, limit = 12): Promise<Score[]> {
@@ -55,20 +54,4 @@ export async function getRecentScores(limit = 10): Promise<Score[]> {
     .limit(limit);
   if (error) throw error;
   return data as Score[];
-}
-
-export async function submitScore(
-  gameId: string,
-  playerName: string,
-  score: number,
-): Promise<Score> {
-  const supabase = createBrowserClient();
-  const normalizedName = playerName.trim().toUpperCase();
-  const { data, error } = await supabase
-    .from('scores')
-    .insert({ game_id: gameId, player_name: normalizedName, score })
-    .select()
-    .single();
-  if (error) throw error;
-  return data as Score;
 }
