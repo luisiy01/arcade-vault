@@ -1,6 +1,6 @@
 # SPEC 04 — Integración base de Supabase con Next.js
 
-> **Status:** Aprobado
+> **Status:** Implementado
 > **Depends on:** SPEC 01
 > **Date:** 2026-10-16
 > **Objective:** Configurar la integración base de Supabase en el proyecto Next.js con clientes para browser, server y middleware, listos para uso futuro de auth, base de datos y demás features.
@@ -40,14 +40,14 @@ Este spec no introduce nuevas estructuras de datos. Solo configura la conexión 
 
 ## Acceptance criteria
 
-- [ ] `@supabase/supabase-js` y `@supabase/ssr` están en `package.json` dependencies.
-- [ ] `.env.template` contiene `NEXT_PUBLIC_SUPABASE_URL=` y `NEXT_PUBLIC_SUPABASE_ANON_KEY=`.
-- [ ] `utils/supabase/client.ts` exporta función para crear cliente browser de Supabase.
-- [ ] `utils/supabase/server.ts` exporta función para crear cliente server de Supabase con cookies.
-- [ ] `middleware.ts` existe en raíz, refresca sesión y tiene matcher configurado.
-- [ ] `npm run dev` sin errores en consola.
-- [ ] No hay errores de TypeScript.
-- [ ] Rutas existentes (`/games`, `/library`, `/about`, `/hall`) siguen funcionando sin regresiones.
+- [ x] `@supabase/supabase-js` y `@supabase/ssr` están en `package.json` dependencies.
+- [ x] `.env.template` contiene `NEXT_PUBLIC_SUPABASE_URL=` y `NEXT_PUBLIC_SUPABASE_ANON_KEY=`.
+- [ x] `utils/supabase/client.ts` exporta función para crear cliente browser de Supabase.
+- [ x] `utils/supabase/server.ts` exporta función para crear cliente server de Supabase con cookies.
+- [ x] `middleware.ts` existe en raíz, refresca sesión y tiene matcher configurado.
+- [ x] `npm run dev` sin errores en consola.
+- [x ] No hay errores de TypeScript.
+- [ x] Rutas existentes (`/games`, `/library`, `/about`, `/hall`) siguen funcionando sin regresiones.
 
 ## Decisions
 
