@@ -26,6 +26,11 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
             <span>ESPACIO: CAÍDA</span>
             <span>P: PAUSA</span>
           </>
+        ) : game.id === 'arkanoid' ? (
+          <>
+            <span>← → MOVER PALETA</span>
+            <span>P: PAUSA</span>
+          </>
         ) : (
           <>
             <span>FLECHAS: MOVER</span>
