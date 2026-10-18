@@ -26,8 +26,8 @@ export function TetrisGame() {
   return (
     <canvas
       ref={canvasRef}
-      width={300}
-      height={600}
+      width={240}
+      height={480}
       tabIndex={0}
       autoFocus
       className="game-canvas"

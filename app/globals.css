@@ -1622,6 +1622,19 @@ a {
   width: 100%;
   height: 100%;
 }
+.av-player[data-game='tetris'] .crt {
+  max-width: 420px;
+  margin-inline: auto;
+}
+.av-player[data-game='tetris'] .crt-screen {
+  aspect-ratio: 1 / 1.05;
+}
+.av-player[data-game='tetris'] .crt-screen .game-canvas {
+  width: auto;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .game-controls-legend {
   display: flex;
   gap: 16px;

@@ -1,6 +1,6 @@
 # SPEC 07 — Tetris: integración en Arcade Vault
 
-> **Status:** Aprobado
+> **Status:** Implementado
 > **Depends on:** SPEC 04, SPEC 05, SPEC 06
 > **Date:** 2026-10-18
 > **Objective:** Integrar Tetris como segundo juego jugable en la plataforma, adaptando la referencia `03-tetris/game.js` al patrón establecido por Asteroids (SPEC 05) con submit de scores a Supabase (SPEC 06).
@@ -119,28 +119,28 @@ VALUES (
 
 ## Acceptance criteria
 
-- [ ] `/game/tetris` carga y muestra el juego.
-- [ ] Juego renderiza en canvas de 300×600.
-- [ ] Controles funcionan: ← → mover, ↑ rotar, ↓ bajar, Espacio caída rápida, P pausa.
-- [ ] 8 piezas aparecen (7 estándar + tuerca N).
-- [ ] Ghost piece visible debajo de la pieza actual.
-- [ ] Preview de pieza siguiente visible durante el juego.
-- [ ] Score se muestra en HUD durante gameplay.
-- [ ] Líneas completadas se limpian y suman puntos según fórmula (líneas × nivel).
-- [ ] Nivel sube cada 10 líneas y velocidad aumenta.
-- [ ] Game over se dispara cuando nueva pieza colisiona inmediatamente al spawn.
-- [ ] Game over muestra puntaje final.
-- [ ] Con usuario logueado, score se envía a Supabase al game over.
-- [ ] Sin usuario logueado, score no se intenta enviar (sin error).
-- [ ] Score submitido aparece en `/hall` al recargar.
-- [ ] `/game/tetris` (página detalle) muestra datos del juego desde Supabase.
-- [ ] GameLoader muestra el juego (no "EN DESARROLLO").
-- [ ] Cover CSS se muestra correctamente en library y página de detalle.
-- [ ] Aviso mobile se muestra en pantallas pequeñas.
-- [ ] Leyenda de controles específica de Tetris visible en página de juego.
-- [ ] `npm run dev` sin errores en consola.
-- [ ] No hay errores de TypeScript.
-- [ ] Navegar fuera del juego detiene game loop y limpia listeners.
+- [x ] `/game/tetris` carga y muestra el juego.
+- [ x] Juego renderiza en canvas de 300×600.
+- [ x] Controles funcionan: ← → mover, ↑ rotar, ↓ bajar, Espacio caída rápida, P pausa.
+- [ x] 8 piezas aparecen (7 estándar + tuerca N).
+- [ x] Ghost piece visible debajo de la pieza actual.
+- [ x] Preview de pieza siguiente visible durante el juego.
+- [ x] Score se muestra en HUD durante gameplay.
+- [ x] Líneas completadas se limpian y suman puntos según fórmula (líneas × nivel).
+- [ x] Nivel sube cada 10 líneas y velocidad aumenta.
+- [ x] Game over se dispara cuando nueva pieza colisiona inmediatamente al spawn.
+- [ x] Game over muestra puntaje final.
+- [ x] Con usuario logueado, score se envía a Supabase al game over.
+- [ x] Sin usuario logueado, score no se intenta enviar (sin error).
+- [ x] Score submitido aparece en `/hall` al recargar.
+- [ x] `/game/tetris` (página detalle) muestra datos del juego desde Supabase.
+- [ x] GameLoader muestra el juego (no "EN DESARROLLO").
+- [ x] Cover CSS se muestra correctamente en library y página de detalle.
+- [ x] Aviso mobile se muestra en pantallas pequeñas.
+- [ x] Leyenda de controles específica de Tetris visible en página de juego.
+- [ x] `npm run dev` sin errores en consola.
+- [ x] No hay errores de TypeScript.
+- [ x] Navegar fuera del juego detiene game loop y limpia listeners.
 
 ## Decisions
 

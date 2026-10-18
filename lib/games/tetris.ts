@@ -7,7 +7,7 @@ export function startTetris(canvas: HTMLCanvasElement, options?: TetrisOptions):
 
   const COLS = 10;
   const ROWS = 20;
-  const BLOCK = 30;
+  const BLOCK = 24;
 
   const COLORS = [
     null,
