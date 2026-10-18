@@ -1,6 +1,6 @@
 # SPEC 08 — Arkanoid: integración en Arcade Vault
 
-> **Status:** Aprobado
+> **Status:** Implementado
 > **Depends on:** SPEC 04, SPEC 05, SPEC 06
 > **Date:** 2026-10-18
 > **Objective:** Integrar Arkanoid como tercer juego jugable en la plataforma, adaptando la referencia `04-arkanoid/game.js` al patrón establecido por Asteroids (SPEC 05) con submit de scores a Supabase (SPEC 06).
@@ -153,32 +153,32 @@ VALUES (
 
 ## Acceptance criteria
 
-- [ ] `/game/arkanoid` carga y muestra el juego.
-- [ ] Juego renderiza en canvas de 800×600.
-- [ ] Sprites del spritesheet se muestran correctamente (paleta, pelota, bloques, explosiones).
-- [ ] Sonidos de rebote y destrucción de bloque se reproducen.
-- [ ] Controles funcionan: ← → mover paleta, P/Escape pausar.
-- [ ] 5 niveles cargan con patrones de bloques distintos.
-- [ ] Velocidad de pelota aumenta con cada nivel.
-- [ ] Score suma +10 por bloque y se acumula entre niveles.
-- [ ] Score se muestra en HUD durante gameplay.
-- [ ] Vidas se muestran en HUD (sprites de pelota).
-- [ ] Perder pelota resta una vida y reposiciona pelota sobre paleta.
-- [ ] Game over se dispara cuando vidas llegan a 0.
-- [ ] Win se dispara al completar nivel 5.
-- [ ] Game over y win muestran overlay con mensaje.
-- [ ] Con usuario logueado, score se envía a Supabase al game over o win.
-- [ ] Sin usuario logueado, score no se intenta enviar (sin error).
-- [ ] Score submitido aparece en `/hall` al recargar.
-- [ ] `/game/arkanoid` (página detalle) muestra datos del juego desde Supabase.
-- [ ] GameLoader muestra el juego (no "EN DESARROLLO").
-- [ ] Cover se muestra correctamente en library y página de detalle.
-- [ ] Aviso mobile se muestra en pantallas pequeñas.
-- [ ] Leyenda de controles específica de Arkanoid visible en página de juego.
-- [ ] Explosiones animadas al destruir bloques.
-- [ ] Navegar fuera del juego detiene game loop, limpia listeners y detiene audio.
-- [ ] `npm run dev` sin errores en consola.
-- [ ] No hay errores de TypeScript.
+- [ x] `/game/arkanoid` carga y muestra el juego.
+- [ x] Juego renderiza en canvas de 800×600.
+- [ x] Sprites del spritesheet se muestran correctamente (paleta, pelota, bloques, explosiones).
+- [ x] Sonidos de rebote y destrucción de bloque se reproducen.
+- [ x] Controles funcionan: ← → mover paleta, P/Escape pausar.
+- [ x] 5 niveles cargan con patrones de bloques distintos.
+- [ x] Velocidad de pelota aumenta con cada nivel.
+- [ x] Score suma +10 por bloque y se acumula entre niveles.
+- [ x] Score se muestra en HUD durante gameplay.
+- [ x] Vidas se muestran en HUD (sprites de pelota).
+- [ x] Perder pelota resta una vida y reposiciona pelota sobre paleta.
+- [ x] Game over se dispara cuando vidas llegan a 0.
+- [ x] Win se dispara al completar nivel 5.
+- [ x] Game over y win muestran overlay con mensaje.
+- [ x] Con usuario logueado, score se envía a Supabase al game over o win.
+- [ x] Sin usuario logueado, score no se intenta enviar (sin error).
+- [ x] Score submitido aparece en `/hall` al recargar.
+- [ x] `/game/arkanoid` (página detalle) muestra datos del juego desde Supabase.
+- [ x] GameLoader muestra el juego (no "EN DESARROLLO").
+- [ x] Cover se muestra correctamente en library y página de detalle.
+- [ x] Aviso mobile se muestra en pantallas pequeñas.
+- [ x] Leyenda de controles específica de Arkanoid visible en página de juego.
+- [ x] Explosiones animadas al destruir bloques.
+- [ x] Navegar fuera del juego detiene game loop, limpia listeners y detiene audio.
+- [ x] `npm run dev` sin errores en consola.
+- [ x] No hay errores de TypeScript.
 
 ## Decisions
 
