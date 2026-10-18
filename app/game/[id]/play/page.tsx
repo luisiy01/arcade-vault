@@ -18,8 +18,20 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
       <PlayerHud gameId={game.id} />
 
       <div className="game-controls-legend">
-        <span>FLECHAS: MOVER</span>
-        <span>ESPACIO: DISPARAR</span>
+        {game.id === 'tetris' ? (
+          <>
+            <span>← → MOVER</span>
+            <span>↑ ROTAR</span>
+            <span>↓ BAJAR</span>
+            <span>ESPACIO: CAÍDA</span>
+            <span>P: PAUSA</span>
+          </>
+        ) : (
+          <>
+            <span>FLECHAS: MOVER</span>
+            <span>ESPACIO: DISPARAR</span>
+          </>
+        )}
       </div>
 
       <div className="crt">
