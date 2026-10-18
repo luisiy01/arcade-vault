@@ -813,6 +813,35 @@ a {
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 30px);
 }
 
+.cover-arkanoid {
+  background: linear-gradient(180deg, #1a0028, #000);
+}
+.cover-arkanoid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(0deg, #ff00ff 0 12px, transparent 12px) 10% 20%/48px 12px no-repeat,
+    linear-gradient(0deg, #00ffff 0 12px, transparent 12px) 30% 20%/48px 12px no-repeat,
+    linear-gradient(0deg, #ffff00 0 12px, transparent 12px) 50% 20%/48px 12px no-repeat,
+    linear-gradient(0deg, #ff4444 0 12px, transparent 12px) 70% 20%/48px 12px no-repeat,
+    linear-gradient(0deg, #00ff88 0 12px, transparent 12px) 90% 20%/48px 12px no-repeat,
+    linear-gradient(0deg, #ff00ff 0 12px, transparent 12px) 20% 34%/48px 12px no-repeat,
+    linear-gradient(0deg, #00ffff 0 12px, transparent 12px) 40% 34%/48px 12px no-repeat,
+    linear-gradient(0deg, #ffff00 0 12px, transparent 12px) 60% 34%/48px 12px no-repeat,
+    linear-gradient(0deg, #ff4444 0 12px, transparent 12px) 80% 34%/48px 12px no-repeat,
+    radial-gradient(circle at 50% 85%, #fff 0 5px, transparent 6px),
+    linear-gradient(0deg, #ccc 0 6px, transparent 6px) 50% 92%/60px 6px no-repeat;
+}
+.cover-arkanoid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 38% 30%, rgba(255, 0, 255, 0.15) 0 40px, transparent 41px),
+    radial-gradient(circle at 62% 30%, rgba(0, 255, 255, 0.15) 0 40px, transparent 41px);
+}
+
 .cover-rana {
   background: linear-gradient(180deg, #001f2a, #0a0a18);
 }
