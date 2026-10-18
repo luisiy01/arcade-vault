@@ -782,6 +782,37 @@ a {
   text-shadow: 0 0 8px var(--yellow);
 }
 
+.cover-tetris {
+  background: linear-gradient(180deg, #0a0a30, #000);
+}
+.cover-tetris::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(0deg, #4dd0e1 0 30px, transparent 30px 60px) 10% 90%/28px 60px no-repeat,
+    linear-gradient(0deg, #ffd54f 0 28px, transparent 28px) 10% 56%/28px 28px no-repeat,
+    linear-gradient(0deg, #ffd54f 0 28px, transparent 28px) 20% 56%/28px 28px no-repeat,
+    linear-gradient(0deg, #ffd54f 0 28px, transparent 28px) 10% 70%/28px 28px no-repeat,
+    linear-gradient(0deg, #ffd54f 0 28px, transparent 28px) 20% 70%/28px 28px no-repeat,
+    linear-gradient(0deg, #ba68c8 0 28px, transparent 28px) 50% 90%/28px 28px no-repeat,
+    linear-gradient(0deg, #ba68c8 0 28px, transparent 28px) 40% 76%/28px 28px no-repeat,
+    linear-gradient(0deg, #ba68c8 0 28px, transparent 28px) 50% 76%/28px 28px no-repeat,
+    linear-gradient(0deg, #ba68c8 0 28px, transparent 28px) 60% 76%/28px 28px no-repeat,
+    linear-gradient(0deg, #e57373 0 28px, transparent 28px) 75% 90%/28px 28px no-repeat,
+    linear-gradient(0deg, #e57373 0 28px, transparent 28px) 85% 90%/28px 28px no-repeat,
+    linear-gradient(0deg, #81c784 0 28px, transparent 28px) 65% 76%/28px 28px no-repeat,
+    linear-gradient(0deg, #81c784 0 28px, transparent 28px) 75% 76%/28px 28px no-repeat;
+}
+.cover-tetris::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 30px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 30px);
+}
+
 .cover-rana {
   background: linear-gradient(180deg, #001f2a, #0a0a18);
 }
@@ -1590,6 +1621,19 @@ a {
   inset: 0;
   width: 100%;
   height: 100%;
+}
+.av-player[data-game='tetris'] .crt {
+  max-width: 420px;
+  margin-inline: auto;
+}
+.av-player[data-game='tetris'] .crt-screen {
+  aspect-ratio: 1 / 1.05;
+}
+.av-player[data-game='tetris'] .crt-screen .game-canvas {
+  width: auto;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .game-controls-legend {
   display: flex;

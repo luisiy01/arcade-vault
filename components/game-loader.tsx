@@ -7,8 +7,13 @@ const AsteroidsGame = dynamic(
   { ssr: false },
 );
 
+const TetrisGame = dynamic(() => import('@/components/games/tetris').then((m) => m.TetrisGame), {
+  ssr: false,
+});
+
 const GAME_MAP: Record<string, React.ComponentType> = {
   asteroids: AsteroidsGame,
+  tetris: TetrisGame,
 };
 
 export function GameLoader({ gameId }: { gameId: string }) {
