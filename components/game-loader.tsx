@@ -16,10 +16,15 @@ const ArkanoidGame = dynamic(
   { ssr: false },
 );
 
+const SnakeGame = dynamic(() => import('@/components/games/snake').then((m) => m.SnakeGame), {
+  ssr: false,
+});
+
 const GAME_MAP: Record<string, React.ComponentType> = {
   asteroids: AsteroidsGame,
   tetris: TetrisGame,
   arkanoid: ArkanoidGame,
+  snake: SnakeGame,
 };
 
 export function GameLoader({ gameId }: { gameId: string }) {
