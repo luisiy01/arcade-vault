@@ -31,6 +31,11 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
             <span>← → MOVER PALETA</span>
             <span>P: PAUSA</span>
           </>
+        ) : game.id === 'snake' ? (
+          <>
+            <span>← → ↑ ↓ / WASD DIRECCIÓN</span>
+            <span>P: PAUSA</span>
+          </>
         ) : (
           <>
             <span>FLECHAS: MOVER</span>
