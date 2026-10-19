@@ -23,6 +23,10 @@ Key config flags enabled in `next.config.ts`:
 
 Usa siempre /frontend-design para diseñar la interfaz de usuario.
 
+## Agents
+
+- **game-planner** — Sugiere juegos que encajan con la plataforma. Evalúa viabilidad (canvas, score, controles, estética retro), mantiene balance de categorías, y registra sugerencias en `references/game-suggestions-todo.md`. Workflow: game-planner sugiere, `/new-game` genera spec, `/spec-impl` implementa.
+
 ## Architecture
 
 - **App Router** (`app/` directory) — no Pages Router
