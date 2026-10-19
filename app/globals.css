@@ -842,6 +842,35 @@ a {
     radial-gradient(circle at 62% 30%, rgba(0, 255, 255, 0.15) 0 40px, transparent 41px);
 }
 
+.cover-snake {
+  background: linear-gradient(180deg, #0a2e0a, #000);
+}
+.cover-snake::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 40%, #3cb043 40% 42%, transparent 42%) 0 15%/100% 20px
+      no-repeat,
+    linear-gradient(0deg, transparent 40%, #3cb043 40% 42%, transparent 42%) 42% 15%/20px 60px
+      no-repeat,
+    linear-gradient(90deg, transparent 20%, #3cb043 20% 42%, transparent 42%) 0 38%/100% 20px
+      no-repeat,
+    linear-gradient(0deg, transparent 0%, #3cb043 0% 100%, transparent 100%) 20% 38%/20px 40px
+      no-repeat,
+    linear-gradient(90deg, transparent 58%, #3cb043 58% 80%, transparent 80%) 0 55%/100% 20px
+      no-repeat,
+    radial-gradient(circle at 75% 72%, #ff3333 0 8px, transparent 9px);
+}
+.cover-snake::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 42% 20%, rgba(60, 176, 67, 0.2) 0 50px, transparent 51px),
+    radial-gradient(circle at 75% 72%, rgba(255, 51, 51, 0.25) 0 20px, transparent 21px);
+}
+
 .cover-rana {
   background: linear-gradient(180deg, #001f2a, #0a0a18);
 }
