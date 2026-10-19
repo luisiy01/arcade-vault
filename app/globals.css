@@ -1680,7 +1680,8 @@ a {
   width: 100%;
   height: 100%;
 }
-.av-player[data-game='arkanoid'] .crt {
+.av-player[data-game='arkanoid'] .crt,
+.av-player[data-game='snake'] .crt {
   max-width: min(860px, calc((100dvh - 320px) * 4 / 3));
   margin-inline: auto;
 }
