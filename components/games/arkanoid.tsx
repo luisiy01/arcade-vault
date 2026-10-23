@@ -4,8 +4,10 @@ import { useRef, useEffect, useCallback } from 'react';
 import { startArkanoid } from '@/lib/games/arkanoid';
 import { useAuth } from '@/lib/auth-context';
 import { submitScore } from '@/lib/supabase/scores-client';
+import type { SkinId } from '@/lib/games/skins';
+import { getGamePalette } from '@/lib/games/skins';
 
-export function ArkanoidGame() {
+export function ArkanoidGame({ skinId }: { skinId?: SkinId }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { user } = useAuth();
   const userRef = useRef(user);
@@ -20,8 +22,9 @@ export function ArkanoidGame() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    return startArkanoid(canvas, { onGameOver: handleGameOver });
-  }, [handleGameOver]);
+    const palette = getGamePalette(skinId ?? 'clasico', 'arkanoid');
+    return startArkanoid(canvas, { onGameOver: handleGameOver, palette, skinId });
+  }, [handleGameOver, skinId]);
 
   return (
     <canvas

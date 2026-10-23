@@ -4,8 +4,10 @@ import { useRef, useEffect, useCallback } from 'react';
 import { startAsteroids } from '@/lib/games/asteroids';
 import { useAuth } from '@/lib/auth-context';
 import { submitScore } from '@/lib/supabase/scores-client';
+import type { SkinId } from '@/lib/games/skins';
+import { getGamePalette } from '@/lib/games/skins';
 
-export function AsteroidsGame() {
+export function AsteroidsGame({ skinId }: { skinId?: SkinId }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { user } = useAuth();
   const userRef = useRef(user);
@@ -20,8 +22,9 @@ export function AsteroidsGame() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    return startAsteroids(canvas, { onGameOver: handleGameOver });
-  }, [handleGameOver]);
+    const palette = getGamePalette(skinId ?? 'clasico', 'asteroids');
+    return startAsteroids(canvas, { onGameOver: handleGameOver, palette, skinId });
+  }, [handleGameOver, skinId]);
 
   return (
     <canvas

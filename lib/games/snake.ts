@@ -1,11 +1,19 @@
+import type { SkinId, GamePalette } from '@/lib/games/skins';
+import { getGamePalette } from '@/lib/games/skins';
+
 export interface SnakeOptions {
   onGameOver?: (score: number) => void;
+  palette?: GamePalette;
+  skinId?: SkinId;
 }
 
 export function startSnake(canvas: HTMLCanvasElement, options?: SnakeOptions): () => void {
   const ctx = canvas.getContext('2d')!;
   const W = 800;
   const H = 600;
+
+  // ── Palette ────────────────────────────────────────────────────────────────
+  const p: GamePalette = options?.palette ?? getGamePalette(options?.skinId ?? 'clasico', 'snake');
 
   // ── Constants ───────────────────────────────────────────────────────────────
   const COLS = 40;
@@ -251,7 +259,7 @@ export function startSnake(canvas: HTMLCanvasElement, options?: SnakeOptions): (
   function drawBackground() {
     for (let row = 0; row < ROWS; row++) {
       for (let col = 0; col < COLS; col++) {
-        ctx.fillStyle = (col + row) % 2 === 0 ? '#1a3a1a' : '#1e441e';
+        ctx.fillStyle = (col + row) % 2 === 0 ? p.bg : p.bgAlt;
         ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
       }
     }
@@ -265,13 +273,13 @@ export function startSnake(canvas: HTMLCanvasElement, options?: SnakeOptions): (
       const py = seg.y * CELL;
       const radius = isHead ? 4 : 3;
 
-      ctx.fillStyle = isHead ? '#7fff00' : '#3cb043';
+      ctx.fillStyle = isHead ? p.primary : p.secondary;
       ctx.beginPath();
       ctx.roundRect(px + 1, py + 1, CELL - 2, CELL - 2, radius);
       ctx.fill();
 
       if (isHead) {
-        ctx.fillStyle = '#1a3a1a';
+        ctx.fillStyle = p.bg;
         const eyeSize = 3;
         let ex1 = 0,
           ey1 = 0,
@@ -321,13 +329,13 @@ export function startSnake(canvas: HTMLCanvasElement, options?: SnakeOptions): (
     if (fruitImgLoaded && fruitImg) {
       ctx.drawImage(fruitImg, sprite.x, sprite.y, sprite.w, sprite.h, px, py, CELL, CELL);
     } else {
-      ctx.fillStyle = '#ff3333';
+      ctx.fillStyle = p.danger;
       ctx.fillRect(px + 2, py + 2, CELL - 4, CELL - 4);
     }
   }
 
   function drawHUD() {
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = p.text;
     ctx.font = 'bold 18px monospace';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
@@ -338,7 +346,7 @@ export function startSnake(canvas: HTMLCanvasElement, options?: SnakeOptions): (
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
     ctx.fillRect(0, 0, W, H);
 
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = p.text;
     ctx.font = 'bold 64px monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

@@ -1665,6 +1665,32 @@ a {
   }
 }
 
+/* ===== skin selector ===== */
+.skin-selector {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.skin-chip {
+  padding: 6px 12px;
+  font-family: var(--pixel);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition:
+    color 120ms,
+    border-color 120ms,
+    box-shadow 120ms;
+}
+.skin-chip:hover:not(.active) {
+  color: var(--ink);
+  border-color: var(--ink-dim);
+}
+
 /* ===== game canvas ===== */
 .game-canvas {
   display: block;

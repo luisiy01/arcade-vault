@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import type { SkinId } from '@/lib/games/skins';
 
 const AsteroidsGame = dynamic(
   () => import('@/components/games/asteroids').then((m) => m.AsteroidsGame),
@@ -20,14 +21,15 @@ const SnakeGame = dynamic(() => import('@/components/games/snake').then((m) => m
   ssr: false,
 });
 
-const GAME_MAP: Record<string, React.ComponentType> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const GAME_MAP: Record<string, React.ComponentType<any>> = {
   asteroids: AsteroidsGame,
   tetris: TetrisGame,
   arkanoid: ArkanoidGame,
   snake: SnakeGame,
 };
 
-export function GameLoader({ gameId }: { gameId: string }) {
+export function GameLoader({ gameId, skinId }: { gameId: string; skinId?: SkinId }) {
   const Game = GAME_MAP[gameId];
 
   if (!Game) {
@@ -53,5 +55,5 @@ export function GameLoader({ gameId }: { gameId: string }) {
     );
   }
 
-  return <Game />;
+  return <Game skinId={skinId} />;
 }
