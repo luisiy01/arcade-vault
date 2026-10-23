@@ -1,11 +1,17 @@
+import type { GamePalette, SkinId } from '@/lib/games/skins';
+import { getGamePalette, hexToRgba } from '@/lib/games/skins';
+
 export interface AsteroidsOptions {
   onGameOver?: (score: number) => void;
+  palette?: GamePalette;
+  skinId?: SkinId;
 }
 
 export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOptions): () => void {
   const ctx = canvas.getContext('2d')!;
   const W = 800;
   const H = 600;
+  const p = options?.palette ?? getGamePalette(options?.skinId ?? 'clasico', 'asteroids');
 
   // ── Input ──────────────────────────────────────────────────────────────────
   const keys: Record<string, boolean> = {};
@@ -77,7 +83,7 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
     }
 
     draw() {
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = p.primary;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
       ctx.fill();
@@ -141,7 +147,7 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
       ctx.save();
       ctx.translate(this.x, this.y);
       ctx.rotate(this.rot);
-      ctx.strokeStyle = '#fff';
+      ctx.strokeStyle = p.primary;
       ctx.lineWidth = 1.5;
       ctx.lineJoin = 'round';
       ctx.beginPath();
@@ -186,12 +192,12 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
       ctx.save();
       ctx.translate(this.x, this.y);
       ctx.rotate(Math.PI / 4);
-      ctx.strokeStyle = '#0ff';
+      ctx.strokeStyle = p.accent;
       ctx.lineWidth = 2;
       const r = this.radius * pulse;
       ctx.strokeRect(-r, -r, r * 2, r * 2);
       ctx.restore();
-      ctx.fillStyle = '#0ff';
+      ctx.fillStyle = p.accent;
       ctx.font = 'bold 12px monospace';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -273,7 +279,7 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
       ctx.save();
       ctx.translate(this.x, this.y);
       ctx.rotate(this.angle);
-      ctx.strokeStyle = '#fff';
+      ctx.strokeStyle = p.primary;
       ctx.lineWidth = 1.5;
       ctx.lineJoin = 'round';
 
@@ -290,7 +296,7 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
         ctx.moveTo(-8, -4);
         ctx.lineTo(-8 - rand(6, 14), 0);
         ctx.lineTo(-8, 4);
-        ctx.strokeStyle = 'rgba(255, 130, 0, 0.85)';
+        ctx.strokeStyle = p.thrust;
         ctx.stroke();
       }
 
@@ -328,7 +334,7 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
 
     draw() {
       const alpha = this.ttl / this.life;
-      ctx.strokeStyle = `rgba(255,255,255,${alpha.toFixed(2)})`;
+      ctx.strokeStyle = hexToRgba(p.primary, alpha);
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(this.x, this.y);
@@ -488,7 +494,7 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(-Math.PI / 2);
-    ctx.strokeStyle = '#fff';
+    ctx.strokeStyle = p.primary;
     ctx.lineWidth = 1.2;
     ctx.lineJoin = 'round';
     ctx.beginPath();
@@ -502,7 +508,7 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
   }
 
   function drawHUD() {
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = p.text;
     ctx.font = '15px monospace';
 
     ctx.textAlign = 'left';
@@ -515,23 +521,23 @@ export function startAsteroids(canvas: HTMLCanvasElement, options?: AsteroidsOpt
 
     if (ship.tripleShot > 0) {
       ctx.textAlign = 'left';
-      ctx.fillStyle = '#0ff';
+      ctx.fillStyle = p.accent;
       ctx.fillText(`3x  ${ship.tripleShot.toFixed(1)}s`, 14, 46);
     }
   }
 
   function drawOverlay(title: string, sub: string) {
     ctx.textAlign = 'center';
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = p.text;
     ctx.font = 'bold 46px monospace';
     ctx.fillText(title, W / 2, H / 2 - 18);
     ctx.font = '18px monospace';
-    ctx.fillStyle = 'rgba(255,255,255,0.65)';
+    ctx.fillStyle = p.textDim;
     ctx.fillText(sub, W / 2, H / 2 + 22);
   }
 
   function draw() {
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = p.bg;
     ctx.fillRect(0, 0, W, H);
 
     particles.forEach((p) => p.draw());
