@@ -1,5 +1,10 @@
+import type { GamePalette, SkinId } from '@/lib/games/skins';
+import { getGamePalette, hexToRgba } from '@/lib/games/skins';
+
 export interface ArkanoidOptions {
   onGameOver?: (score: number) => void;
+  palette?: GamePalette;
+  skinId?: SkinId;
 }
 
 export function startArkanoid(canvas: HTMLCanvasElement, options?: ArkanoidOptions): () => void {
@@ -18,6 +23,21 @@ export function startArkanoid(canvas: HTMLCanvasElement, options?: ArkanoidOptio
   const BASE_BALL_VX = 200;
   const BASE_BALL_VY = -300;
   const EXPLOSION_DURATION = 150;
+
+  // ── Skin / palette ─────────────────────────────────────────────────────────
+  const skinId = options?.skinId ?? 'clasico';
+  const p = options?.palette ?? getGamePalette(skinId, 'arkanoid');
+  const useSprites = skinId === 'clasico';
+
+  const BLOCK_COLOR_INDEX: Record<string, number> = {
+    red: 0,
+    yellow: 1,
+    cyan: 2,
+    magenta: 3,
+    hotpink: 4,
+    green: 5,
+    gray: 7,
+  };
 
   // ── Sprites ─────────────────────────────────────────────────────────────────
   interface SpriteFrame {
@@ -387,7 +407,7 @@ export function startArkanoid(canvas: HTMLCanvasElement, options?: ArkanoidOptio
   function drawOverlay(message: string) {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
     ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = p.text;
     ctx.font = 'bold 64px monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -395,25 +415,70 @@ export function startArkanoid(canvas: HTMLCanvasElement, options?: ArkanoidOptio
   }
 
   function draw() {
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = p.bg;
     ctx.fillRect(0, 0, W, H);
 
+    // ── Blocks ─────────────────────────────────────────────────────────────
     for (const block of blocks) {
-      if (block.alive) drawSprite('block_' + block.color, block.x, block.y, block.w, block.h);
+      if (!block.alive) continue;
+      if (useSprites) {
+        drawSprite('block_' + block.color, block.x, block.y, block.w, block.h);
+      } else {
+        const colorIdx = BLOCK_COLOR_INDEX[block.color] ?? 0;
+        ctx.fillStyle = p.blocks[colorIdx];
+        ctx.fillRect(block.x + 1, block.y + 1, block.w - 2, block.h - 2);
+        ctx.strokeStyle = hexToRgba(p.blocks[colorIdx], 0.4);
+        ctx.lineWidth = 1;
+        ctx.strokeRect(block.x + 0.5, block.y + 0.5, block.w - 1, block.h - 1);
+      }
     }
 
+    // ── Explosions ─────────────────────────────────────────────────────────
     for (const exp of explosions) {
-      const frames = EXPLOSION_FRAMES[exp.color];
-      if (!frames) continue;
-      const frameIndex = Math.min(Math.floor((exp.elapsed / EXPLOSION_DURATION) * 4), 3);
-      drawFrame(frames[frameIndex], exp.x, exp.y, exp.w, exp.h);
+      if (useSprites) {
+        const frames = EXPLOSION_FRAMES[exp.color];
+        if (!frames) continue;
+        const frameIndex = Math.min(Math.floor((exp.elapsed / EXPLOSION_DURATION) * 4), 3);
+        drawFrame(frames[frameIndex], exp.x, exp.y, exp.w, exp.h);
+      } else {
+        const progress = exp.elapsed / EXPLOSION_DURATION;
+        const alpha = 1 - progress;
+        const radius = (Math.max(exp.w, exp.h) / 2) * (1 + progress);
+        const cx = exp.x + exp.w / 2;
+        const cy = exp.y + exp.h / 2;
+        const colorIdx = BLOCK_COLOR_INDEX[exp.color] ?? 0;
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.fillStyle = hexToRgba(p.blocks[colorIdx], alpha * 0.7);
+        ctx.fill();
+      }
     }
 
-    drawSprite('paddle', paddle.x, paddle.y, paddle.w, paddle.h);
-    drawSprite('ball', ball.x, ball.y, ball.w, ball.h);
+    // ── Paddle ─────────────────────────────────────────────────────────────
+    if (useSprites) {
+      drawSprite('paddle', paddle.x, paddle.y, paddle.w, paddle.h);
+    } else {
+      ctx.fillStyle = p.primary;
+      ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
+      ctx.fillStyle = hexToRgba(p.primary, 0.5);
+      ctx.fillRect(paddle.x, paddle.y, paddle.w, 2);
+    }
 
+    // ── Ball ───────────────────────────────────────────────────────────────
+    if (useSprites) {
+      drawSprite('ball', ball.x, ball.y, ball.w, ball.h);
+    } else {
+      const bcx = ball.x + ball.w / 2;
+      const bcy = ball.y + ball.h / 2;
+      ctx.beginPath();
+      ctx.arc(bcx, bcy, ball.w / 2, 0, Math.PI * 2);
+      ctx.fillStyle = p.accent;
+      ctx.fill();
+    }
+
+    // ── HUD ────────────────────────────────────────────────────────────────
     if (gameState === 'playing' || isPaused) {
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = p.text;
       ctx.font = 'bold 18px monospace';
       ctx.textAlign = 'left';
       ctx.textBaseline = 'top';
@@ -424,16 +489,24 @@ export function startArkanoid(canvas: HTMLCanvasElement, options?: ArkanoidOptio
       const ballSpacing = 4;
       for (let i = 0; i < lives; i++) {
         const bx = W - 10 - (lives - i) * (ballSize + ballSpacing);
-        drawSprite('ball', bx, 10, ballSize, ballSize);
+        if (useSprites) {
+          drawSprite('ball', bx, 10, ballSize, ballSize);
+        } else {
+          ctx.fillStyle = p.accent;
+          ctx.beginPath();
+          ctx.arc(bx + ballSize / 2, 10 + ballSize / 2, ballSize / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     }
 
+    // ── Overlays ───────────────────────────────────────────────────────────
     if (gameState === 'gameover') drawOverlay('GAME OVER');
     if (gameState === 'win') drawOverlay('¡COMPLETADO!');
     if (isPaused && gameState === 'playing') {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
       ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = '#fff';
+      ctx.fillStyle = p.text;
       ctx.font = 'bold 56px monospace';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';

@@ -79,9 +79,15 @@ Preserva colores hardcodeados actuales de cada juego.
 
 ### Arkanoid — Dual rendering
 
-- **clasico**: sprites desde spritesheet (`/games/arkanoid/arkanoid.png`)
-- **neon/retro**: rendering procedural con rectangulos coloreados
-- Requiere `skinId` en Options para decidir modo de renderizado
+- **clasico**: sprites desde spritesheet (`/games/arkanoid/spritesheet-breakout.png`) — zero visual change
+- **neon/retro**: rendering procedural:
+  - Bloques: rectangulos coloreados con `p.blocks[BLOCK_COLOR_INDEX[color]]` + borde sutil
+  - Paddle: rectangulo con `p.primary` + linea highlight
+  - Pelota: circulo con `p.accent`
+  - Explosiones: circulos expandibles con alpha decreciente en lugar de sprite frames
+  - HUD vidas: circulos con `p.accent` en lugar de sprites de pelota
+- `useSprites = (skinId === 'clasico')` determina modo de renderizado
+- 7 colores de bloque mapeados a indices de `p.blocks`: red=0, yellow=1, cyan=2, magenta=3, hotpink=4, green=5, gray=7
 
 ---
 
@@ -91,8 +97,8 @@ Preserva colores hardcodeados actuales de cada juego.
 | --------- | --------------- | --------- | --------- | --------- | --------- | ------------ |
 | asteroids | OK              | OK        | OK        | OK        | OK        | Compliant    |
 | tetris    | Pendiente       | Pendiente | Pendiente | Pendiente | Pendiente | No compliant |
-| arkanoid  | Pendiente       | Pendiente | Pendiente | Pendiente | Pendiente | No compliant |
-| snake     | Pendiente       | Pendiente | Pendiente | Pendiente | Pendiente | No compliant |
+| arkanoid  | OK              | OK        | OK        | OK        | OK        | Compliant    |
+| snake     | OK              | OK        | OK        | OK        | OK        | Compliant    |
 
 ---
 
