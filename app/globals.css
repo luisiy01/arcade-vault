@@ -1789,6 +1789,24 @@ a {
   .av-player[data-game='tetris'] .crt {
     max-width: 280px;
   }
+  .player-hud {
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+  .hud-stat .l {
+    font-size: 8px;
+  }
+  .hud-stat .v {
+    font-size: 12px;
+  }
+  .hud-actions .btn {
+    padding: 8px 12px;
+    font-size: 8px;
+  }
+  .skin-selector {
+    display: none;
+  }
 }
 
 /* ===== touch gamepad ===== */
