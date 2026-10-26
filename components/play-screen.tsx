@@ -37,6 +37,11 @@ export function PlayScreen({ game }: PlayScreenProps) {
             <span>{'← → ↑ ↓ / WASD DIRECCIÓN'}</span>
             <span>P: PAUSA</span>
           </>
+        ) : game.id === 'frogger' ? (
+          <>
+            <span>{'← → ↑ ↓ SALTAR'}</span>
+            <span>P: PAUSA</span>
+          </>
         ) : (
           <>
             <span>FLECHAS: MOVER</span>
