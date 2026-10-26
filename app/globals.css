@@ -1755,14 +1755,39 @@ a {
   margin-bottom: 8px;
 }
 @media (max-width: 799px) {
-  .game-mobile-warning {
-    display: block;
-  }
   .crt {
-    display: none;
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow:
+      0 0 0 3px #1b1b22,
+      0 0 0 4px #2a2a35,
+      0 12px 40px -10px rgba(0, 245, 255, 0.25);
+  }
+  .crt-screen {
+    border-radius: 6px / 12px;
+  }
+  .crt-screen .game-canvas {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  .crt-bottom {
+    font-size: 7px;
+    margin-top: 8px;
   }
   .game-controls-legend {
     display: none;
+  }
+  .av-player {
+    padding: 0 8px 16px;
+  }
+  .av-player[data-game='arkanoid'] .crt,
+  .av-player[data-game='snake'] .crt {
+    max-width: 100%;
+  }
+  .av-player[data-game='tetris'] .crt {
+    max-width: 280px;
   }
 }
 
