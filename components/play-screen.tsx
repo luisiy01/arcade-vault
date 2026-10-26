@@ -3,7 +3,9 @@
 import { PlayerHud } from '@/components/player-hud';
 import { GameLoader } from '@/components/game-loader';
 import { SkinSelector } from '@/components/skin-selector';
+import { TouchGamepad } from '@/components/touch-gamepad';
 import { useSkin } from '@/lib/use-skin';
+import Link from 'next/link';
 
 interface PlayScreenProps {
   game: { id: string; title: string };
@@ -58,10 +60,11 @@ export function PlayScreen({ game }: PlayScreenProps) {
         </div>
       </div>
 
-      <div className="game-mobile-warning">
-        <div className="pixel neon-yellow">TECLADO REQUERIDO</div>
-        <div>Este juego requiere teclado. Juega desde una computadora.</div>
-      </div>
+      <TouchGamepad gameId={game.id} />
+
+      <Link href={`/game/${game.id}`} className="mobile-exit-btn">
+        SALIR
+      </Link>
     </div>
   );
 }
