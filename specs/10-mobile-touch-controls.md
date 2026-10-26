@@ -1,6 +1,6 @@
 # SPEC 10 — Soporte mobile: controles táctiles y canvas responsive
 
-> **Status:** Aprobado
+> **Status:** Implementado
 > **Depends on:** SPEC 05, SPEC 07, SPEC 08, SPEC 09
 > **Date:** 2026-10-26
 > **Objective:** Hacer que los 4 juegos existentes (Asteroids, Tetris, Arkanoid, Snake) sean jugables en dispositivos móviles con pantalla táctil, mediante un gamepad virtual que despacha eventos de teclado sintéticos y un canvas que escala al viewport.

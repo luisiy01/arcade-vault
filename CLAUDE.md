@@ -28,6 +28,7 @@ Usa siempre /frontend-design para diseñar la interfaz de usuario.
 - **game-planner** — Sugiere juegos que encajan con la plataforma. Evalúa viabilidad (canvas, score, controles, estética retro), mantiene balance de categorías, y registra sugerencias en `references/game-suggestions-todo.md`. Workflow: game-planner sugiere, `/new-game` genera spec, `/spec-impl` implementa.
 - **game-jam** — Recibe un tema y genera 3 specs completos de juegos en `specs/game-jam/[game-id]/spec.md`. Cada spec sigue formato de SPEC 07/08/09 con data model, implementation plan, acceptance criteria, decisions y risks. Workflow: game-jam genera specs, usuario revisa, `/spec-impl` implementa.
 - **skin-designer** — Audita y aplica skins a juegos. Asegura que cada juego tenga 3 skins (clasico/neon/retro) sobre fondos oscuros. Maneja infraestructura de paletas (`lib/games/skins.ts`) y compliance per-game. Reference: `references/skin-standards.md`.
+- **mobile-porter** — Audita y corrige experiencia mobile. Verifica responsive, touch controls, canvas scaling y UX mobile en todas las páginas. Reference: `specs/10-mobile-touch-controls.md`.
 
 ## Architecture
 
