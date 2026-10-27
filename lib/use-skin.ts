@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import type { SkinId } from '@/lib/games/skins';
 import { DEFAULT_SKIN, SKIN_IDS } from '@/lib/games/skins';
 
@@ -19,11 +19,7 @@ function readSkin(): SkinId {
 }
 
 export function useSkin(): [SkinId, (id: SkinId) => void] {
-  const [skin, setSkinState] = useState<SkinId>(DEFAULT_SKIN);
-
-  useEffect(() => {
-    setSkinState(readSkin());
-  }, []);
+  const [skin, setSkinState] = useState<SkinId>(() => readSkin());
 
   const setSkin = useCallback((id: SkinId) => {
     setSkinState(id);

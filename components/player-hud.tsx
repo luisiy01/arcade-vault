@@ -1,9 +1,10 @@
 'use client';
 
+import { memo } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth-context';
 
-export function PlayerHud({ gameId }: { gameId: string }) {
+export const PlayerHud = memo(function PlayerHud({ gameId }: { gameId: string }) {
   const { user } = useAuth();
 
   return (
@@ -35,4 +36,4 @@ export function PlayerHud({ gameId }: { gameId: string }) {
       </div>
     </div>
   );
-}
+});

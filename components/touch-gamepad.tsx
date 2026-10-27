@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useMemo, useCallback, memo } from 'react';
 
 interface KeyDef {
   code: string;
@@ -53,6 +53,14 @@ const GAMEPAD_MAPPINGS: Record<string, GamepadMapping> = {
       right: { code: 'ArrowRight', key: 'ArrowRight' },
     },
   },
+  frogger: {
+    dpad: {
+      up: { code: 'ArrowUp', key: 'ArrowUp' },
+      down: { code: 'ArrowDown', key: 'ArrowDown' },
+      left: { code: 'ArrowLeft', key: 'ArrowLeft' },
+      right: { code: 'ArrowRight', key: 'ArrowRight' },
+    },
+  },
 };
 
 function dispatchKey(type: 'keydown' | 'keyup', { code, key }: KeyDef) {
@@ -63,24 +71,30 @@ interface TouchGamepadProps {
   gameId: string;
 }
 
-export function TouchGamepad({ gameId }: TouchGamepadProps) {
+export const TouchGamepad = memo(function TouchGamepad({ gameId }: TouchGamepadProps) {
   const mapping = GAMEPAD_MAPPINGS[gameId];
 
-  const handleTouchStart = useCallback(
-    (keyDef: KeyDef) => (e: React.TouchEvent) => {
-      e.preventDefault();
-      dispatchKey('keydown', keyDef);
-    },
-    [],
-  );
-
-  const handleTouchEnd = useCallback(
-    (keyDef: KeyDef) => (e: React.TouchEvent) => {
-      e.preventDefault();
-      dispatchKey('keyup', keyDef);
-    },
-    [],
-  );
+  const handlers = useMemo(() => {
+    if (!mapping) return null;
+    const make = (keyDef: KeyDef) => ({
+      onTouchStart: (e: React.TouchEvent) => {
+        e.preventDefault();
+        dispatchKey('keydown', keyDef);
+      },
+      onTouchEnd: (e: React.TouchEvent) => {
+        e.preventDefault();
+        dispatchKey('keyup', keyDef);
+      },
+    });
+    return {
+      up: make(mapping.dpad.up),
+      down: make(mapping.dpad.down),
+      left: make(mapping.dpad.left),
+      right: make(mapping.dpad.right),
+      a: mapping.a ? make(mapping.a) : null,
+      b: mapping.b ? make(mapping.b) : null,
+    };
+  }, [mapping]);
 
   const handlePause = useCallback((e: React.TouchEvent) => {
     e.preventDefault();
@@ -88,23 +102,23 @@ export function TouchGamepad({ gameId }: TouchGamepadProps) {
     dispatchKey('keyup', { code: 'KeyP', key: 'p' });
   }, []);
 
-  if (!mapping) return null;
+  if (!mapping || !handlers) return null;
 
   return (
     <div className="touch-gamepad">
       <div className="gamepad-dpad">
         <button
           className="dpad-btn dpad-up"
-          onTouchStart={handleTouchStart(mapping.dpad.up)}
-          onTouchEnd={handleTouchEnd(mapping.dpad.up)}
+          onTouchStart={handlers.up.onTouchStart}
+          onTouchEnd={handlers.up.onTouchEnd}
           aria-label="Up"
         >
           ▲
         </button>
         <button
           className="dpad-btn dpad-left"
-          onTouchStart={handleTouchStart(mapping.dpad.left)}
-          onTouchEnd={handleTouchEnd(mapping.dpad.left)}
+          onTouchStart={handlers.left.onTouchStart}
+          onTouchEnd={handlers.left.onTouchEnd}
           aria-label="Left"
         >
           ◄
@@ -112,16 +126,16 @@ export function TouchGamepad({ gameId }: TouchGamepadProps) {
         <div className="dpad-center" />
         <button
           className="dpad-btn dpad-right"
-          onTouchStart={handleTouchStart(mapping.dpad.right)}
-          onTouchEnd={handleTouchEnd(mapping.dpad.right)}
+          onTouchStart={handlers.right.onTouchStart}
+          onTouchEnd={handlers.right.onTouchEnd}
           aria-label="Right"
         >
           ►
         </button>
         <button
           className="dpad-btn dpad-down"
-          onTouchStart={handleTouchStart(mapping.dpad.down)}
-          onTouchEnd={handleTouchEnd(mapping.dpad.down)}
+          onTouchStart={handlers.down.onTouchStart}
+          onTouchEnd={handlers.down.onTouchEnd}
           aria-label="Down"
         >
           ▼
@@ -133,21 +147,21 @@ export function TouchGamepad({ gameId }: TouchGamepadProps) {
       </button>
 
       <div className="gamepad-actions">
-        {mapping.a && (
+        {mapping.a && handlers.a && (
           <button
             className="action-btn action-a"
-            onTouchStart={handleTouchStart(mapping.a)}
-            onTouchEnd={handleTouchEnd(mapping.a)}
+            onTouchStart={handlers.a.onTouchStart}
+            onTouchEnd={handlers.a.onTouchEnd}
             aria-label={mapping.a.label}
           >
             {mapping.a.label}
           </button>
         )}
-        {mapping.b && (
+        {mapping.b && handlers.b && (
           <button
             className="action-btn action-b"
-            onTouchStart={handleTouchStart(mapping.b)}
-            onTouchEnd={handleTouchEnd(mapping.b)}
+            onTouchStart={handlers.b.onTouchStart}
+            onTouchEnd={handlers.b.onTouchEnd}
             aria-label={mapping.b.label}
           >
             {mapping.b.label}
@@ -156,4 +170,4 @@ export function TouchGamepad({ gameId }: TouchGamepadProps) {
       </div>
     </div>
   );
-}
+});
