@@ -1,13 +1,13 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, memo } from 'react';
 import { startArkanoid } from '@/lib/games/arkanoid';
 import { useAuth } from '@/lib/auth-context';
 import { submitScore } from '@/lib/supabase/scores-client';
 import type { SkinId } from '@/lib/games/skins';
 import { getGamePalette } from '@/lib/games/skins';
 
-export function ArkanoidGame({ skinId }: { skinId?: SkinId }) {
+export const ArkanoidGame = memo(function ArkanoidGame({ skinId }: { skinId?: SkinId }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { user } = useAuth();
   const userRef = useRef(user);
@@ -36,4 +36,4 @@ export function ArkanoidGame({ skinId }: { skinId?: SkinId }) {
       className="game-canvas"
     />
   );
-}
+});
