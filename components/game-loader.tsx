@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import dynamic from 'next/dynamic';
 import type { SkinId } from '@/lib/games/skins';
 
@@ -34,7 +35,13 @@ const GAME_MAP: Record<string, React.ComponentType<any>> = {
   frogger: FroggerGame,
 };
 
-export function GameLoader({ gameId, skinId }: { gameId: string; skinId?: SkinId }) {
+export const GameLoader = memo(function GameLoader({
+  gameId,
+  skinId,
+}: {
+  gameId: string;
+  skinId?: SkinId;
+}) {
   const Game = GAME_MAP[gameId];
 
   if (!Game) {
@@ -61,4 +68,4 @@ export function GameLoader({ gameId, skinId }: { gameId: string; skinId?: SkinId
   }
 
   return <Game skinId={skinId} />;
-}
+});
