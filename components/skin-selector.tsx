@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import type { SkinId } from '@/lib/games/skins';
 import { SKIN_IDS, SKIN_LABELS } from '@/lib/games/skins';
 
@@ -21,7 +22,7 @@ const ACTIVE_TEXT: Record<SkinId, string> = {
   retro: '#ffcf3a',
 };
 
-export function SkinSelector({
+export const SkinSelector = memo(function SkinSelector({
   skin,
   onSkinChange,
 }: {
@@ -53,4 +54,4 @@ export function SkinSelector({
       })}
     </div>
   );
-}
+});
