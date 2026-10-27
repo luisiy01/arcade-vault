@@ -29,6 +29,7 @@ Usa siempre /frontend-design para diseñar la interfaz de usuario.
 - **game-jam** — Recibe un tema y genera 3 specs completos de juegos en `specs/game-jam/[game-id]/spec.md`. Cada spec sigue formato de SPEC 07/08/09 con data model, implementation plan, acceptance criteria, decisions y risks. Workflow: game-jam genera specs, usuario revisa, `/spec-impl` implementa.
 - **skin-designer** — Audita y aplica skins a juegos. Asegura que cada juego tenga 3 skins (clasico/neon/retro) sobre fondos oscuros. Maneja infraestructura de paletas (`lib/games/skins.ts`) y compliance per-game. Reference: `references/skin-standards.md`.
 - **mobile-porter** — Audita y corrige experiencia mobile. Verifica responsive, touch controls, canvas scaling y UX mobile en todas las páginas. Reference: `specs/10-mobile-touch-controls.md`.
+- **game-performance-booster** — Audita y corrige performance React en juegos. Recibe slug, verifica patrones de SPEC 12 (memo, handlers estables, init síncrono, gamepad mapping), y aplica fixes. Reference: `specs/12-frogger-react-performance.md`.
 
 ## Architecture
 
