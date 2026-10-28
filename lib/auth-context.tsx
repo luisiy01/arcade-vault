@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import type { Provider } from '@supabase/supabase-js';
+import type { Provider, SupabaseClient } from '@supabase/supabase-js';
 
 export interface User {
   id: string;
@@ -40,9 +40,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-const supabase = createClient();
-
-async function fetchDisplayName(userId: string): Promise<string> {
+async function fetchDisplayName(supabase: SupabaseClient, userId: string): Promise<string> {
   const { data } = await supabase.from('profiles').select('display_name').eq('id', userId).single();
   return data?.display_name ?? 'PLAYER';
 }
@@ -70,13 +68,14 @@ function toUser(supabaseUser: { id: string; email?: string | null }, displayName
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
         let displayName: string;
         try {
-          displayName = await fetchDisplayName(session.user.id);
+          displayName = await fetchDisplayName(supabase, session.user.id);
         } catch {
           displayName = resolveDisplayName(session.user);
         }
@@ -91,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) {
         let displayName: string;
         try {
-          displayName = await fetchDisplayName(session.user.id);
+          displayName = await fetchDisplayName(supabase, session.user.id);
         } catch {
           displayName = resolveDisplayName(session.user);
         }
@@ -102,55 +101,67 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [supabase]);
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error: error?.message ?? null };
-  }, []);
+  const signIn = useCallback(
+    async (email: string, password: string) => {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      return { error: error?.message ?? null };
+    },
+    [supabase],
+  );
 
-  const signUp = useCallback(async (email: string, password: string, displayName: string) => {
-    const formatted = displayName.toUpperCase().slice(0, 10);
+  const signUp = useCallback(
+    async (email: string, password: string, displayName: string) => {
+      const formatted = displayName.toUpperCase().slice(0, 10);
 
-    const { data: existing } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('display_name', formatted)
-      .single();
+      const { data: existing } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('display_name', formatted)
+        .single();
 
-    if (existing) {
-      return { error: 'Ese nombre ya está en uso.' };
-    }
+      if (existing) {
+        return { error: 'Ese nombre ya está en uso.' };
+      }
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { display_name: formatted } },
-    });
-    if (error) return { error: error.message };
-    if (!data.session) return { error: null, needsConfirmation: true };
-    return { error: null };
-  }, []);
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { display_name: formatted } },
+      });
+      if (error) return { error: error.message };
+      if (!data.session) return { error: null, needsConfirmation: true };
+      return { error: null };
+    },
+    [supabase],
+  );
 
-  const signInWithOAuth = useCallback(async (provider: Provider) => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    });
-    return { error: error?.message ?? null };
-  }, []);
+  const signInWithOAuth = useCallback(
+    async (provider: Provider) => {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: { redirectTo: `${window.location.origin}/auth/callback` },
+      });
+      return { error: error?.message ?? null };
+    },
+    [supabase],
+  );
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setUser(null);
-  }, []);
+  }, [supabase]);
 
-  const resetPassword = useCallback(async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset`,
-    });
-    return { error: error?.message ?? null };
-  }, []);
+  const resetPassword = useCallback(
+    async (email: string) => {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset`,
+      });
+      return { error: error?.message ?? null };
+    },
+    [supabase],
+  );
 
   const value = useMemo(
     () => ({ user, loading, signIn, signUp, signInWithOAuth, signOut, resetPassword }),
