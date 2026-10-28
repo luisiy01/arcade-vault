@@ -71,15 +71,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
+    supabase.auth.getUser().then(async ({ data: { user: supabaseUser } }) => {
+      if (supabaseUser) {
         let displayName: string;
         try {
-          displayName = await fetchDisplayName(supabase, session.user.id);
+          displayName = await fetchDisplayName(supabase, supabaseUser.id);
         } catch {
-          displayName = resolveDisplayName(session.user);
+          displayName = resolveDisplayName(supabaseUser);
         }
-        setUser(toUser(session.user, displayName));
+        setUser(toUser(supabaseUser, displayName));
       }
       setLoading(false);
     });
