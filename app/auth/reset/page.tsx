@@ -1,28 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 
-const supabase = createClient();
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/;
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
-  const [confirm, setConfirm] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+  const supabase = useMemo(() => createClient(), []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    if (password.length < 6) {
-      setError('Contraseña debe tener al menos 6 caracteres.');
-      return;
-    }
-    if (password !== confirm) {
-      setError('Las contraseñas no coinciden.');
+    if (!PASSWORD_REGEX.test(password)) {
+      setError(
+        'Contraseña debe tener mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos.',
+      );
       return;
     }
 
@@ -31,7 +30,11 @@ export default function ResetPasswordPage() {
     setSubmitting(false);
 
     if (err) {
-      setError(err.message);
+      if (err.message.toLowerCase().includes('session') || err.status === 403) {
+        setError('Link inválido o expirado. Solicita un nuevo link de recuperación.');
+      } else {
+        setError(err.message);
+      }
     } else {
       router.push('/games');
     }
@@ -59,25 +62,37 @@ export default function ResetPasswordPage() {
         <form onSubmit={handleSubmit} style={{ marginTop: 16 }}>
           <div className="field">
             <label>Nueva contraseña</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              minLength={6}
-            />
-          </div>
-          <div className="field">
-            <label>Confirmar contraseña</label>
-            <input
-              type="password"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              placeholder="••••••••"
-              required
-              minLength={6}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                minLength={8}
+                style={{ paddingRight: 48 }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: 8,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--ink-faint)',
+                  cursor: 'pointer',
+                  fontSize: 10,
+                  fontFamily: 'var(--font-mono)',
+                  letterSpacing: '0.08em',
+                  padding: '4px',
+                }}
+              >
+                {showPassword ? 'OCULTAR' : 'MOSTRAR'}
+              </button>
+            </div>
           </div>
 
           {error && (
@@ -91,6 +106,17 @@ export default function ResetPasswordPage() {
             >
               {error}
             </div>
+          )}
+
+          {error.includes('expirado') && (
+            <button
+              className="btn ghost"
+              type="button"
+              style={{ width: '100%', marginTop: 10, fontSize: 11 }}
+              onClick={() => router.push('/auth')}
+            >
+              SOLICITAR NUEVO LINK
+            </button>
           )}
 
           <button
