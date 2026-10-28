@@ -13,7 +13,7 @@ export const PlayerHud = memo(function PlayerHud({ gameId }: { gameId: string })
         <div className="hud-stat">
           <div className="l">Jugador</div>
           <div className="v" style={{ color: 'var(--ink)' }}>
-            {user?.name ?? 'INVITADO'}
+            {user?.displayName ?? 'INVITADO'}
           </div>
         </div>
         <div className="hud-stat">

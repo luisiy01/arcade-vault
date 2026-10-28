@@ -16,7 +16,7 @@ export const TetrisGame = memo(function TetrisGame({ skinId }: { skinId?: SkinId
   const handleGameOver = useCallback((score: number) => {
     const currentUser = userRef.current;
     if (!currentUser || score <= 0) return;
-    submitScore('tetris', currentUser.name, score).catch(() => {});
+    submitScore('tetris', score).catch(() => {});
   }, []);
 
   useEffect(() => {
