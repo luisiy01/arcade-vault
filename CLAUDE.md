@@ -15,21 +15,28 @@ This project runs Next.js 16.4 which has breaking changes from earlier versions.
 Key config flags enabled in `next.config.ts`:
 
 - `experimental.agentFeedback` — structured error reporting for agents
+- `experimental.agentUpgrade: "security"` — security upgrades for agents
 - `cacheComponents` — component-level caching
 - `partialPrefetching` — partial prefetching
 - Turbopack with `@tailwindcss/turbopack` loader for CSS
 
 ## Skills
 
-Usa siempre /frontend-design para diseñar la interfaz de usuario.
+- `/frontend-design` — diseño de interfaz de usuario (usar siempre para UI)
+- `/spec` — crea specs siguiendo método spec-driven
+- `/spec-impl` — implementa spec aprobado (crea branch, implementa paso a paso)
+- `/new-game` — genera spec completo para integrar juego nuevo
+- `/spec-impl-game` — pipeline completo: implementa spec + skin-designer + mobile-porter
 
 ## Agents
 
-- **game-planner** — Sugiere juegos que encajan con la plataforma. Evalúa viabilidad (canvas, score, controles, estética retro), mantiene balance de categorías, y registra sugerencias en `references/game-suggestions-todo.md`. Workflow: game-planner sugiere, `/new-game` genera spec, `/spec-impl` implementa.
-- **game-jam** — Recibe un tema y genera 3 specs completos de juegos en `specs/game-jam/[game-id]/spec.md`. Cada spec sigue formato de SPEC 07/08/09 con data model, implementation plan, acceptance criteria, decisions y risks. Workflow: game-jam genera specs, usuario revisa, `/spec-impl` implementa.
-- **skin-designer** — Audita y aplica skins a juegos. Asegura que cada juego tenga 3 skins (clasico/neon/retro) sobre fondos oscuros. Maneja infraestructura de paletas (`lib/games/skins.ts`) y compliance per-game. Reference: `references/skin-standards.md`.
-- **mobile-porter** — Audita y corrige experiencia mobile. Verifica responsive, touch controls, canvas scaling y UX mobile en todas las páginas. Reference: `specs/10-mobile-touch-controls.md`.
-- **game-performance-booster** — Audita y corrige performance React en juegos. Recibe slug, verifica patrones de SPEC 12 (memo, handlers estables, init síncrono, gamepad mapping), y aplica fixes. Reference: `specs/12-frogger-react-performance.md`.
+Definiciones completas en `.claude/agents/`.
+
+- **game-planner** — sugiere juegos, evalúa viabilidad, registra en `references/game-suggestions-todo.md`
+- **game-jam** — genera 3 specs de juegos por tema en `specs/game-jam/`
+- **skin-designer** — audita y aplica skins (3 paletas por juego). Ref: `references/skin-standards.md`
+- **mobile-porter** — audita y corrige experiencia mobile (responsive, touch, canvas scaling)
+- **game-performance-booster** — audita y corrige performance React en juegos
 
 ## Architecture
 
@@ -67,7 +74,18 @@ Pattern: game engine class en `lib/games/[name].ts` (lógica pura canvas), wrapp
 - `components/mini-card.tsx` — tarjeta compacta
 - `components/game-loader.tsx` — loader con instrucciones antes de iniciar juego
 - `components/player-hud.tsx` — HUD del jugador durante gameplay
+- `components/play-screen.tsx` — pantalla de juego (wrapper canvas + HUD + game over)
+- `components/skin-selector.tsx` — selector de skin por juego
+- `components/touch-gamepad.tsx` — gamepad táctil para mobile
 - `components/floating-silhouettes.tsx` — decoración animada de fondo
+- `components/feature-icon.tsx` — ícono de feature (home)
+- `components/highlight-icon.tsx` — ícono de highlight (home)
+
+### Shared Lib
+
+- `lib/data.ts` — re-exports `Game`, `Score` + constante `CATS` (categorías)
+- `lib/use-skin.ts` — hook para skin persistido en localStorage
+- `lib/games/skins.ts` — sistema de skins: paletas, resolver, utilidades de color
 
 ### Supabase Integration
 
@@ -81,11 +99,11 @@ Pattern: game engine class en `lib/games/[name].ts` (lógica pura canvas), wrapp
 
 ### Auth
 
-Auth simple basada en localStorage (no Supabase Auth). `lib/auth-context.tsx` provee `AuthProvider`, `useAuth()` con `user`, `login`, `logout`. Nombre se normaliza uppercase, max 10 chars.
+Auth simple basada en localStorage (no Supabase Auth). `lib/auth-context.tsx` provee `AuthProvider`, `useAuth()` con `user`, `login`, `logout`. Nombre se normaliza uppercase en `submitScore()` (`scores-client.ts`). Límite 10 chars enforced en UI (`app/auth/page.tsx`).
 
 ### Design System
 
-Tema retro arcade — fondo oscuro (#0a0a0f), neón colors (cyan, magenta, yellow, green), pixel font + monospace. Custom CSS vars en `:root` mapeados a Tailwind v4 `@theme inline`. Categorías de juegos: `TODOS`, `ARCADE`, `PUZZLE`, `SHOOTER`, `VERSUS`.
+Tema retro arcade — fondo oscuro (#0a0a0f), neón colors (cyan, magenta, yellow, green), podium colors (gold, silver, bronze), pixel font + monospace. Custom CSS vars en `:root` mapeados a Tailwind v4 `@theme inline`. Categorías de juegos: `TODOS`, `ARCADE`, `PUZZLE`, `SHOOTER`, `VERSUS`.
 
 ## Design Approach
 
