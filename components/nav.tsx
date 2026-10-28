@@ -8,7 +8,7 @@ import { useAuth } from '@/lib/auth-context';
 export function Nav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, signOut } = useAuth();
 
   const isActive = (path: string) => {
     if (path === '/games') return pathname === '/games' || pathname === '/';
@@ -49,8 +49,8 @@ export function Nav() {
         </div>
 
         {user ? (
-          <button className="btn ghost auth-btn" onClick={logout}>
-            {user.name} ▾
+          <button className="btn ghost auth-btn" onClick={signOut}>
+            {user.displayName} ▾
           </button>
         ) : (
           <Link href="/auth" className="btn auth-btn">
