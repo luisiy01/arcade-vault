@@ -12,6 +12,8 @@ export default function AuthPage() {
   );
 }
 
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/;
+
 function AuthContent() {
   const [tab, setTab] = useState<'in' | 'up'>('in');
   const [email, setEmail] = useState('');
@@ -59,8 +61,10 @@ function AuthContent() {
       setError('Nombre de jugador requerido.');
       return;
     }
-    if (password.length < 6) {
-      setError('Contraseña debe tener al menos 6 caracteres.');
+    if (!PASSWORD_REGEX.test(password)) {
+      setError(
+        'Contraseña debe tener mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos.',
+      );
       return;
     }
 
@@ -183,7 +187,7 @@ function AuthContent() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  minLength={6}
+                  minLength={8}
                 />
               </div>
 
