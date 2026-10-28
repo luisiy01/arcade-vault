@@ -37,6 +37,7 @@ Definiciones completas en `.claude/agents/`.
 - **skin-designer** — audita y aplica skins (3 paletas por juego). Ref: `references/skin-standards.md`
 - **mobile-porter** — audita y corrige experiencia mobile (responsive, touch, canvas scaling)
 - **game-performance-booster** — audita y corrige performance React en juegos
+- **security-auditor** — audita seguridad DB (RLS, policies, advisors) y App (headers, auth, secrets, XSS)
 
 ## Architecture
 
