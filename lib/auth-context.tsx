@@ -115,22 +115,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async (email: string, password: string, displayName: string) => {
       const formatted = displayName.toUpperCase().slice(0, 10);
 
-      const { data: existing } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('display_name', formatted)
-        .single();
-
-      if (existing) {
-        return { error: 'Ese nombre ya está en uso.' };
-      }
-
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { data: { display_name: formatted } },
       });
-      if (error) return { error: error.message };
+
+      if (error) {
+        if (
+          error.message.toLowerCase().includes('display_name') ||
+          error.message.includes('unique')
+        ) {
+          return { error: 'Ese nombre ya está en uso.' };
+        }
+        return { error: error.message };
+      }
+
+      if (data.user && data.session) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('id', data.user.id)
+          .single();
+
+        if (!profile) {
+          return { error: 'Ese nombre ya está en uso. Intenta con otro nombre.' };
+        }
+      }
+
       if (!data.session) return { error: null, needsConfirmation: true };
       return { error: null };
     },
