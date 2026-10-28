@@ -16,7 +16,7 @@ export const AsteroidsGame = memo(function AsteroidsGame({ skinId }: { skinId?: 
   const handleGameOver = useCallback((score: number) => {
     const currentUser = userRef.current;
     if (!currentUser || score <= 0) return;
-    submitScore('asteroids', currentUser.name, score).catch(() => {});
+    submitScore('asteroids', score).catch(() => {});
   }, []);
 
   useEffect(() => {

@@ -16,7 +16,7 @@ export const ArkanoidGame = memo(function ArkanoidGame({ skinId }: { skinId?: Sk
   const handleGameOver = useCallback((score: number) => {
     const currentUser = userRef.current;
     if (!currentUser || score <= 0) return;
-    submitScore('arkanoid', currentUser.name, score).catch(() => {});
+    submitScore('arkanoid', score).catch(() => {});
   }, []);
 
   useEffect(() => {

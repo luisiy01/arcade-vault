@@ -16,7 +16,7 @@ export const SnakeGame = memo(function SnakeGame({ skinId }: { skinId?: SkinId }
   const handleGameOver = useCallback((score: number) => {
     const currentUser = userRef.current;
     if (!currentUser || score <= 0) return;
-    submitScore('snake', currentUser.name, score).catch(() => {});
+    submitScore('snake', score).catch(() => {});
   }, []);
 
   useEffect(() => {

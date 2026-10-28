@@ -16,7 +16,7 @@ export function HallClient({ games, scoresByGame }: Props) {
   const game = games.find((g) => g.id === tab);
   const { user } = useAuth();
 
-  const userBest = user ? rows.find((r) => r.player_name === user.name.trim().toUpperCase()) : null;
+  const userBest = user ? rows.find((r) => r.user_id === user.id) : null;
   const userRank = userBest ? rows.indexOf(userBest) + 1 : null;
 
   return (
@@ -104,7 +104,7 @@ export function HallClient({ games, scoresByGame }: Props) {
                 #{String(userRank).padStart(2, '0')}
               </div>
               <div className="pl" style={{ color: 'var(--yellow)' }}>
-                {user.name}
+                {user.displayName}
               </div>
               <div
                 className="sc"

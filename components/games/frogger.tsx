@@ -16,7 +16,7 @@ export const FroggerGame = memo(function FroggerGame({ skinId }: { skinId?: Skin
   const handleGameOver = useCallback((score: number) => {
     const currentUser = userRef.current;
     if (!currentUser || score <= 0) return;
-    submitScore('frogger', currentUser.name, score).catch(() => {});
+    submitScore('frogger', score).catch(() => {});
   }, []);
 
   useEffect(() => {
