@@ -1,10 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 
 export default function AuthPage() {
+  return (
+    <Suspense>
+      <AuthContent />
+    </Suspense>
+  );
+}
+
+function AuthContent() {
   const [tab, setTab] = useState<'in' | 'up'>('in');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -57,10 +65,12 @@ export default function AuthPage() {
     }
 
     setSubmitting(true);
-    const { error: err } = await signUp(email, password, displayName);
+    const result = await signUp(email, password, displayName);
     setSubmitting(false);
-    if (err) {
-      setError(err);
+    if (result.error) {
+      setError(result.error);
+    } else if (result.needsConfirmation) {
+      setInfo('Revisa tu email para confirmar tu cuenta antes de iniciar sesión.');
     } else {
       router.push('/games');
     }

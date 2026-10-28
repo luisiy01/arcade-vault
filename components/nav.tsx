@@ -1,14 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [userMenu, setUserMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { user, signOut } = useAuth();
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenu(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
 
   const isActive = (path: string) => {
     if (path === '/games') return pathname === '/games' || pathname === '/';
@@ -49,9 +61,26 @@ export function Nav() {
         </div>
 
         {user ? (
-          <button className="btn ghost auth-btn" onClick={signOut}>
-            {user.displayName} ▾
-          </button>
+          <div className="user-menu" ref={userMenuRef}>
+            <button className="btn ghost auth-btn" onClick={() => setUserMenu((v) => !v)}>
+              {user.displayName} ▾
+            </button>
+            {userMenu && (
+              <div className="user-dropdown">
+                <div className="user-dropdown-name">{user.displayName}</div>
+                <div className="user-dropdown-email">{user.email}</div>
+                <button
+                  className="user-dropdown-logout"
+                  onClick={() => {
+                    signOut();
+                    setUserMenu(false);
+                  }}
+                >
+                  Cerrar Sesión
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <Link href="/auth" className="btn auth-btn">
             Iniciar Sesión
@@ -96,13 +125,25 @@ export function Nav() {
         >
           Acerca de
         </Link>
-        <Link
-          href="/auth"
-          className={isActive('/auth') ? 'active' : ''}
-          onClick={() => setOpen(false)}
-        >
-          {user ? 'Cuenta' : 'Iniciar Sesión'}
-        </Link>
+        {user ? (
+          <button
+            className="mobile-logout"
+            onClick={() => {
+              signOut();
+              setOpen(false);
+            }}
+          >
+            Cerrar Sesión
+          </button>
+        ) : (
+          <Link
+            href="/auth"
+            className={isActive('/auth') ? 'active' : ''}
+            onClick={() => setOpen(false)}
+          >
+            Iniciar Sesión
+          </Link>
+        )}
         <div style={{ flex: 1 }} />
         <div
           className="pixel"

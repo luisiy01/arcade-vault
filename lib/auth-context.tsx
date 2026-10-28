@@ -11,15 +11,16 @@ export interface User {
   displayName: string;
 }
 
+interface SignUpResult {
+  error: string | null;
+  needsConfirmation?: boolean;
+}
+
 interface AuthContextValue {
   user: User | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
-  signUp: (
-    email: string,
-    password: string,
-    displayName: string,
-  ) => Promise<{ error: string | null }>;
+  signUp: (email: string, password: string, displayName: string) => Promise<SignUpResult>;
   signInWithOAuth: (provider: Provider) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: string | null }>;
@@ -46,6 +47,26 @@ async function fetchDisplayName(userId: string): Promise<string> {
   return data?.display_name ?? 'PLAYER';
 }
 
+function resolveDisplayName(supabaseUser: {
+  id: string;
+  email?: string | null;
+  user_metadata?: Record<string, unknown>;
+}): string {
+  return (
+    (supabaseUser.user_metadata?.display_name as string) ??
+    (supabaseUser.user_metadata?.full_name as string) ??
+    (supabaseUser.user_metadata?.user_name as string) ??
+    supabaseUser.email?.split('@')[0] ??
+    'PLAYER'
+  )
+    .toUpperCase()
+    .slice(0, 10);
+}
+
+function toUser(supabaseUser: { id: string; email?: string | null }, displayName: string): User {
+  return { id: supabaseUser.id, email: supabaseUser.email ?? '', displayName };
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -53,26 +74,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (session?.user) {
-        const displayName = await fetchDisplayName(session.user.id);
-        setUser({
-          id: session.user.id,
-          email: session.user.email ?? '',
-          displayName,
-        });
+        let displayName: string;
+        try {
+          displayName = await fetchDisplayName(session.user.id);
+        } catch {
+          displayName = resolveDisplayName(session.user);
+        }
+        setUser(toUser(session.user, displayName));
       }
       setLoading(false);
     });
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
-        const displayName = await fetchDisplayName(session.user.id);
-        setUser({
-          id: session.user.id,
-          email: session.user.email ?? '',
-          displayName,
-        });
+        let displayName: string;
+        try {
+          displayName = await fetchDisplayName(session.user.id);
+        } catch {
+          displayName = resolveDisplayName(session.user);
+        }
+        setUser(toUser(session.user, displayName));
       } else {
         setUser(null);
       }
@@ -99,12 +122,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { error: 'Ese nombre ya está en uso.' };
     }
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { display_name: formatted } },
     });
-    return { error: error?.message ?? null };
+    if (error) return { error: error.message };
+    if (!data.session) return { error: null, needsConfirmation: true };
+    return { error: null };
   }, []);
 
   const signInWithOAuth = useCallback(async (provider: Provider) => {
